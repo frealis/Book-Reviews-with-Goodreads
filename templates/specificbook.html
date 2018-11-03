@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index.html</title>
+</head>
+<body>
+  <p>
+    specific_book[x] username: {{ specific_book[1].username }}<br><br>
+    g.user: {{ g.user }}<br><br>
+    <a href="{{ url_for('logout')}}">Logout</a>
+  </p>
+  <form action="/search" method="post">
+    Search:<br>
+    <input type="text" name="search_bar" placeholder="Enter title, author, or ISBN number">
+    <button type="submit">Submit</button>
+  </form>
+  <p>
+    <h4>Specific Book:</h4>
+    book id: {{ id }}<br>
+    Title: {{ specific_book[0].title }}<br>
+    Author: {{ specific_book[0].author }}<br>
+    ISBN: {{ specific_book[0].isbn }}
+  </p>
+  <p>
+    <h4>Reviews:</h4>
+    <ul>
+    {% for i in specific_book: %}
+      <li>{{ i.username }}: {{ i.review }}</li>
+    {% endfor %}
+    </ul>
+  </p>
+  <p>
+    <h4>Write a review:</h4>
+    <form action="{{ url_for('book', id=id) }}" method="post">
+      <input type="text" name="write_review">
+      <button type="submit">Submit</button>
+    </form>
+    {{ x }}
+  </p>
+  <p>
+    write_review: {{ write_review }}<br><br>
+    test: {{ user_review_exists }}<br><br>
+    x: {{ x }}<br><br>
+    Object: {{ specific_book }}
+  </p>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index.html</title>
+</head>
+<body>
+  <a href="{{ url_for('logout') }}">Logout</a><br><br>
+  <form action="/search" method="post">
+    Search:<br>
+    <input type="text" name="search_bar" placeholder="Enter title, author, or ISBN number">
+    <button type="submit">Submit</button>
+  </form>
+
+  <p>
+    <h4>Results for {{ search_term }}:</h4>
+    {{ alert }}
+    <ul>
+      {% for match in matches: %}
+        <li><a href="{{ url_for('book', id=match.id) }}">{{ match.title }}</a> by {{ match.author }} ({{ match.year }}), ISBN: {{ match.isbn }}</li>
+      {% endfor %}
+    </ul>
+  </p>
+</body>
+</html>
