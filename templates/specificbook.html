@@ -24,10 +24,13 @@
   <p>
     <h4>Reviews:</h4>
     <ul>
-    {% for i in specific_book: %}
-      <li>{{ i.username }}: {{ i.review }}</li>
+    {% for user_review in user_reviews: %}
+      <li>{{ user_review.username }}: {{ user_review.review }}</li>
     {% endfor %}
     </ul>
+  </p>
+  <p>
+
   </p>
   <p>
     <h4>Write a review:</h4>
@@ -46,7 +49,8 @@
     <br>{{ error }}
   </p>
   <p>
-    specific_book: {{ specific_book }}
+    specific_book: {{ specific_book }}<br><br>
+    user_reviews: {{ user_reviews }}
   </p>
 </body>
 </html>

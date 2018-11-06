@@ -27,7 +27,7 @@ def before_request():
   g.user = None
   if 'user' in session:
     g.user = session['user']
-    # g.id = session['id']
+    g.id = session['id']
 
 @app.route("/")
 def index():
@@ -117,38 +117,51 @@ def search():
 
 @app.route("/<int:id>", methods=["GET", "POST"])
 def book(id):
+  avg_rating = 0
+  number_of_ratings = 0
   rating = request.form.get('rating')
+  total_rating = 0
   user_review_exists = False
-  write_review_val = request.form.get('write_review')
+  write_review = request.form.get('write_review')
   error = 'Cannot submit more than 1 review.'
   if id:
-    # Get all of the information on a book with 1 query
+    # Get all of the information on the book
     specific_book = db.execute(
-      'SELECT b.id, b.isbn, b.title, b.author, b.year, '
-      'r.user_id, r.book_id, r.review,'
+      'SELECT * FROM books '
+      'WHERE id=:id',
+      {"id": id}
+    ).fetchall()
+    # Get user & user review data
+    user_reviews = db.execute(
+      'SELECT r.user_id, r.book_id, r.rating, r.review, '
       'u.id, u.username '
-      'FROM books as b '
-      'JOIN reviews r ON r.book_id = b.id '
+      'FROM reviews as r '
       'JOIN users u ON u.id = r.user_id '
       'WHERE book_id=:id',
       {"id": id}
-      ).fetchall()
+    ).fetchall()
+    # Get the average rating
+    for user_rating in user_reviews:
+      total_rating = total_rating + user_rating.rating
+      number_of_ratings += 1
+    avg_rating = total_rating / number_of_ratings
     # Check to see if user has already reviewed a specific book
-    for i in specific_book:
+    for i in user_reviews:
         if i.username == g.user:
           user_review_exists = True
     # Run an INSERT query to add a review if the user hasn't entered one yet
     if request.method == "POST" and user_review_exists == False:
       insert_review = db.execute(
-        'INSERT INTO reviews (user_id, book_id, review) '
-        'VALUES (:user_id_key, :book_id_key, :write_review_key)',
+        'INSERT INTO reviews (user_id, book_id, rating, review) '
+        'VALUES (:user_id_key, :book_id_key, :rating_key, :write_review_key)',
         {
           # The user_id_key value comes from the global 'id' variable that is tied
           # to a user's current, active session. The book_id_key value comes from 
           # the argument that gets passed to the book(id) function.
           "user_id_key": g.id, 
           "book_id_key": id, 
-          "write_review_key": write_review_val
+          "rating_key": rating,
+          "write_review_key": write_review
         }
       )
     # Return an error message if the user has already submitted a review
@@ -157,14 +170,16 @@ def book(id):
       "specificbook.html", 
       error=error,
       id=id,
-      rating=rating,
-      specific_book=specific_book
+      avg_rating=avg_rating,
+      specific_book=specific_book,
+      user_reviews=user_reviews
     )
     db.commit()
     # Return specificbook.html upon a GET request
     return render_template(
       "specificbook.html", 
       id=id, 
-      rating=rating,
-      specific_book=specific_book
+      avg_rating=avg_rating,
+      specific_book=specific_book,
+      user_reviews=user_reviews
     )
