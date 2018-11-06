@@ -6,9 +6,9 @@ Web Programming with Python and JavaScript
 
   $ $env:FLASK_APP = "application.py"
   $ $env:FLASK_DEBUG = "1"                    // optional
-  $ $env:DATABASE_URL = "the database URL"
+  $ $env:DATABASE_URL = "database URL"
 
-  ... this project uses a Postgresql database hosted by Heroku, and can be found by logging into your account, selected your project from the dashboard, clicking on "Heroku Postgres" under "Installed add-ons" > Settings > View Credentials. As of 10/28/2018, the URI is postgres://avqyegtgitkwic:6339dcc0f8e83b630cc54d83af5da8dac8beeb389c325fb158e169dc39a931be@ec2-75-101-138-26.compute-1.amazonaws.com:5432/dc6qbqfun1384n.
+  ... this project uses a Postgresql database hosted by Heroku, and can be found by logging into your account, selected your project from the dashboard, clicking on "Heroku Postgres" under "Installed add-ons" > Settings > View Credentials.
 
   ... you can see which environment variables have currently been set by typing:
 
@@ -20,7 +20,7 @@ Web Programming with Python and JavaScript
 
 - Connect to the Postgres database from the command line:
 
-  $ psql postgres://avqyegtgitkwic:6339dcc0f8e83b630cc54d83af5da8dac8beeb389c325fb158e169dc39a931be@ec2-75-101-138-26.compute-1.amazonaws.com:5432/dc6qbqfun1384n.
+  $ psql "database URL" (no quotes)
 
 - Creating a Login Page: https://www.youtube.com/watch?v=eBwhBrNbrNI
 
