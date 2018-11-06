@@ -16,13 +16,13 @@
     <button type="submit">Submit</button>
   </form>
   <p>
-    <h4>Specific Book:</h4>
+    <h4>Information:</h4>
     Title: {{ specific_book[0].title }}<br>
     Author: {{ specific_book[0].author }}<br>
     ISBN: {{ specific_book[0].isbn }}
   </p>
   <p>
-    <h4>Reviews:</h4>
+    <h4>Reviews & average ratings submitted to this website:</h4>
     <ul>
     {% for user_review in user_reviews: %}
       <li>{{ user_review.username }}: {{ user_review.review }}</li>
@@ -30,26 +30,32 @@
     </ul>
   </p>
   <p>
+    Average rating: {{ avg_rating }} / 5.0
+  </p>
+  <p>
+    <h4>Average rating & number of ratings from Goodreads:</h4>
 
   </p>
   <p>
-    <h4>Write a review:</h4>
+    <h4>Write a review & rate this book:</h4>
     <form action="{{ url_for('book', id=id) }}" method="post">
       <textarea type="text" name="write_review" rows="4" cols="50"></textarea>
-    <h4>Rate this book:</h4>
+      <br>
       <select name="rating">
-        <option value="1">1 (not good)</option>
+        <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
-        <option value="5">5 (great)</option>
+        <option value="5">5</option>
       </select><br><br>
       <button type="submit">Submit</button>
     </form>
     <br>{{ error }}
   </p>
   <p>
-    specific_book: {{ specific_book }}<br><br>
+    avg_rating: {{ avg_rating }}<br>
+    id: {{ id }}<br>
+    specific_book: {{ specific_book }}<br>
     user_reviews: {{ user_reviews }}
   </p>
 </body>

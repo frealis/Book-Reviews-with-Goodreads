@@ -2,15 +2,18 @@
 
 Web Programming with Python and JavaScript
 
-- Set environment variables:
+- Using Powershell you can set environment variables manually from the command line:
 
+  $ $env:DATABASE_URL = "database URL"
   $ $env:FLASK_APP = "application.py"
   $ $env:FLASK_DEBUG = "1"                    // optional
-  $ $env:DATABASE_URL = "the database URL"
+  $ $env:GOODREADS_API_KEY = "goodsreads api key"
 
-  ... this project uses a Postgresql database hosted by Heroku, and can be found by logging into your account, selected your project from the dashboard, clicking on "Heroku Postgres" under "Installed add-ons" > Settings > View Credentials. As of 10/28/2018, the URI is postgres://avqyegtgitkwic:6339dcc0f8e83b630cc54d83af5da8dac8beeb389c325fb158e169dc39a931be@ec2-75-101-138-26.compute-1.amazonaws.com:5432/dc6qbqfun1384n.
+  ... or you can store the variables in a .env file and retrieve them via dotenv: https://pypi.org/project/python-dotenv/#installation
 
-  ... you can see which environment variables have currently been set by typing:
+- This project uses a Postgresql database hosted by Heroku, and can be found by logging into your account, selected your project from the dashboard, clicking on "Heroku Postgres" under "Installed add-ons" > Settings > View Credentials.
+
+  ... in Powershell you can see which environment variables have currently been set by typing:
 
     $ Get-ChildItem Env:
 
@@ -20,7 +23,7 @@ Web Programming with Python and JavaScript
 
 - Connect to the Postgres database from the command line:
 
-  $ psql postgres://avqyegtgitkwic:6339dcc0f8e83b630cc54d83af5da8dac8beeb389c325fb158e169dc39a931be@ec2-75-101-138-26.compute-1.amazonaws.com:5432/dc6qbqfun1384n.
+  $ psql database_URL
 
 - Creating a Login Page: https://www.youtube.com/watch?v=eBwhBrNbrNI
 

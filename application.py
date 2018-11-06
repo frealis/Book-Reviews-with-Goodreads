@@ -1,4 +1,6 @@
 import os
+import requests
+from dotenv import load_dotenv, find_dotenv
 from flask import Flask, g, redirect, render_template, request, session, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
@@ -6,9 +8,15 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
 
-# Check for environment variable
+# Load environment variables
+load_dotenv(find_dotenv())
+DATABASE_URL = os.getenv("DATABASE_URL")
 if not os.getenv("DATABASE_URL"):
   raise RuntimeError("DATABASE_URL is not set")
+FLASK_APP = os.getenv("FLASK_APP")
+FLASK_DEBUG = os.getenv("FLASK_DEBUG")
+GOODREADS_API_KEY = os.getenv("GOODREADS_API_KEY")
+
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
@@ -43,10 +51,11 @@ def login():
     username = request.form.get('user_name')
     wrong = "Incorrect username or password."
     session.pop('user', None)
+    session.pop('id', None)
     if username and password:
       # The db.execute method returns ResultProxy, which is a cursor/pointer. To 
       # retrieve the results you have to iterate over ResultProxy using a FOR loop, 
-      # *.fetchall(), or *.first().
+      # *.fetchall(), *.first(), or something similar.
       users = db.execute("SELECT * FROM users").fetchall()
       for user in users:
         if user.username == username and user.password == password:
@@ -62,6 +71,7 @@ def login():
 @app.route("/logout")
 def logout():
   session.pop('user', None)
+  session.pop('id', None)
   info = "You have successfully logged out."
   return render_template("login.html", alert=info)
 
@@ -131,7 +141,7 @@ def book(id):
       'WHERE id=:id',
       {"id": id}
     ).fetchall()
-    # Get user & user review data
+    # Get user & review data
     user_reviews = db.execute(
       'SELECT r.user_id, r.book_id, r.rating, r.review, '
       'u.id, u.username '
@@ -168,9 +178,9 @@ def book(id):
     elif request.method == "POST" and user_review_exists == True:
       return render_template(
       "specificbook.html", 
+      avg_rating=avg_rating,
       error=error,
       id=id,
-      avg_rating=avg_rating,
       specific_book=specific_book,
       user_reviews=user_reviews
     )
@@ -178,8 +188,8 @@ def book(id):
     # Return specificbook.html upon a GET request
     return render_template(
       "specificbook.html", 
-      id=id, 
       avg_rating=avg_rating,
+      id=id, 
       specific_book=specific_book,
       user_reviews=user_reviews
     )
