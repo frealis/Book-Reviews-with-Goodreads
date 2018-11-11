@@ -7,7 +7,7 @@
   <title>index.html</title>
 </head>
 <body>
-  <p>Welcome, {{ user }}!</p>
+  <p>Welcome, {{ user }} with user_id: {{ id }}!</p>
   <a href="{{ url_for('logout')}}">Logout</a><br><br>
   <form action="/search" method="post">
     Search:<br>

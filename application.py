@@ -32,15 +32,20 @@ db = scoped_session(sessionmaker(bind=engine))
 # a global variable
 @app.before_request
 def before_request():
+  g.id = None
   g.user = None
-  if 'user' in session:
-    g.user = session['user']
+  if 'user' and 'id' in session:
     g.id = session['id']
+    g.user = session['user']
 
 @app.route("/")
 def index():
-  if g.user:
-    return render_template("index.html", user=session['user'])
+  if g.id and g.user:
+    return render_template(
+      "index.html", 
+      id=session['id'],
+      user=session['user']
+    )
   return render_template("login.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -86,16 +91,30 @@ def register():
     for user in users:
       if user.username == username:
         return render_template("login.html", alert=taken)
-    insert = db.execute(
+    insert_new_user = db.execute(
       'INSERT INTO users (username, password) '
       'VALUES (:username_key, :password_key)', 
       {"username_key": username, "password_key": password}
-      )
+    )
     db.commit()
-    # Once the user successfully registers an account, their username is assigned
-    # to the session variable & their session is now active
+    # Once the user successfully registers an account then the username that was
+    # retrieved from the <form> on the register.html page is assigned to the 
+    # session variable, but the user ID is unknown since it is only created by the
+    # database after the INSERT query. The next SELECT query tries to find it.
+    # Afterwards, once the id is known then it is assigned to the session
+    # dictionary.
+    user_id = db.execute(
+      'SELECT id FROM users WHERE username=:username',
+      {"username": username}
+    ).fetchall()
+    session['id'] = user_id
     session['user'] = username
-    return render_template("register.html", results=insert)
+    return render_template(
+      "register.html", 
+      user_id=session['id'],
+      username=session['user'],
+      session=session
+    )
   return render_template("login.html", alert=info)
 
 @app.route("/search", methods=["POST"])
@@ -111,7 +130,7 @@ def search():
       'OR LOWER(author) LIKE LOWER(:search_term) '
       'OR LOWER(isbn) LIKE LOWER(:search_term)', 
       {"search_term": '%' + search_term + '%'}
-      )
+    )
     # Add the search results to matches[] and later return that list search.html
     for search_result in search_results:
       matches.append(search_result)
@@ -121,7 +140,8 @@ def search():
       "search.html", 
       matches=matches, 
       search_term=search_term, 
-      alert=no_results)
+      alert=no_results
+    )
   else:
     return "Must enter a search term."
 
