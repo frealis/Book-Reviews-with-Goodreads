@@ -219,11 +219,26 @@ def api(isbn):
   api_book = db.execute(
     'SELECT * FROM books b WHERE b.isbn=:isbn',
     {"isbn": isbn}
-  ).fetchall()
-  # Since db.execute(...).fetchall() returns a list of tuples, api
-  api_book
+  ).first()
+  # Since db.execute(...).fetchall() returns a list of tuples but we need to 
+  # return the book's data in json format, we can manually put everyting in json
+  # format by creating a dictionary of key:value pairs
+  api_json_format = {}
+  api_isbn = api_book[1]
+  api_title = api_book[2]
+  api_author = api_book[3]
+  api_year = api_book[4]
+  api_json_format["isbn"] = api_isbn
+  api_json_format["title"] = api_title
+  api_json_format["author"] = api_author
+  api_json_format["year"] = api_year
   return render_template(
     "api.html",
+    api_author=api_author,
     api_book=api_book,
+    api_isbn=api_isbn,
+    api_json_format=api_json_format,
+    api_title=api_title,
+    api_year=api_year,
     isbn=isbn
   )
