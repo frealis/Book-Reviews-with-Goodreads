@@ -248,6 +248,13 @@ def api(isbn):
   api_json_format["title"] = api_title
   api_json_format["author"] = api_author
   api_json_format["year"] = api_year
+  # Get Goodreads data and add it to api_json_format{}
+  res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": isbn})
+  res_json = res.json()
+  res_json_avg = res_json['books'][0]['average_rating']
+  res_json_count = res_json['books'][0]['work_reviews_count']
+  api_json_format['average_score'] = res_json_avg
+  api_json_format['review_count'] = res_json_count
   return render_template(
     "api.html",
     api_author=api_author,
