@@ -224,6 +224,6 @@ def api(isbn):
   api_book
   return render_template(
     "api.html",
-    api_book=api_book,
+    api_book=api_book
     # isbn=isbn
   )
