@@ -1,3 +1,4 @@
+import json
 import os
 import requests
 from dotenv import load_dotenv, find_dotenv
@@ -174,9 +175,15 @@ def book(id):
     for user_rating in user_reviews:
       total_rating = total_rating + user_rating.rating
       number_of_ratings += 1
-    avg_rating = total_rating / number_of_ratings
+    if number_of_ratings == 0:
+      avg_rating = 0
+    else:
+      avg_rating = total_rating / number_of_ratings
     # Get Goodreads data via their API
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": specific_book[0].isbn})
+    res_json = res.json()
+    res_json_avg = res_json['books'][0]['average_rating']
+    res_json_count = res_json['books'][0]['work_reviews_count']
     # Check to see if user has already reviewed a specific book
     for i in user_reviews:
         if i.username == g.user:
@@ -204,6 +211,8 @@ def book(id):
       error=error,
       id=id,
       res=res,
+      res_json_avg=res_json_avg,
+      res_json_count=res_json_count,
       specific_book=specific_book,
       user_reviews=user_reviews
     )
@@ -214,6 +223,9 @@ def book(id):
       avg_rating=avg_rating,
       id=id, 
       res=res,
+      res_json=res_json,
+      res_json_avg=res_json_avg,
+      res_json_count=res_json_count,
       specific_book=specific_book,
       user_reviews=user_reviews
     )
