@@ -107,7 +107,7 @@ def register():
       'SELECT id FROM users WHERE username=:username',
       {"username": username}
     ).fetchall()
-    session['id'] = user_id
+    session['id'] = user_id[0][0]
     session['user'] = username
     return render_template(
       "register.html", 
