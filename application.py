@@ -8,7 +8,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
 
-# Load environment variables
+# Load environment variables 
 load_dotenv(find_dotenv())
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not os.getenv("DATABASE_URL"):
@@ -155,13 +155,13 @@ def book(id):
   write_review = request.form.get('write_review')
   error = 'Cannot submit more than 1 review.'
   if id:
-    # Get all of the information on the book
+    # Get information on the book
     specific_book = db.execute(
       'SELECT * FROM books '
       'WHERE id=:id',
       {"id": id}
     ).fetchall()
-    # Get user & review data
+    # Get user & review data 
     user_reviews = db.execute(
       'SELECT r.user_id, r.book_id, r.rating, r.review, '
       'u.id, u.username '
@@ -175,6 +175,8 @@ def book(id):
       total_rating = total_rating + user_rating.rating
       number_of_ratings += 1
     avg_rating = total_rating / number_of_ratings
+    # Get Goodreads data via their API
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": specific_book[0].isbn})
     # Check to see if user has already reviewed a specific book
     for i in user_reviews:
         if i.username == g.user:
@@ -201,6 +203,7 @@ def book(id):
       avg_rating=avg_rating,
       error=error,
       id=id,
+      res=res,
       specific_book=specific_book,
       user_reviews=user_reviews
     )
@@ -210,6 +213,7 @@ def book(id):
       "specificbook.html", 
       avg_rating=avg_rating,
       id=id, 
+      res=res,
       specific_book=specific_book,
       user_reviews=user_reviews
     )
