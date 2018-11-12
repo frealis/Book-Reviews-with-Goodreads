@@ -220,7 +220,7 @@ def api(isbn):
     'SELECT * FROM books b WHERE b.isbn=:isbn',
     {"isbn": isbn}
   ).fetchall()
-  # Since db.execute(...).fetchall() returns a list of tuples
+  # Since db.execute(...).fetchall() returns a list of tuples, master
   api_book
   return render_template(
     "api.html",
