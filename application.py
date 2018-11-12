@@ -213,3 +213,17 @@ def book(id):
       specific_book=specific_book,
       user_reviews=user_reviews
     )
+
+@app.route("/api/<string:isbn>")
+def api(isbn):
+  api_book = db.execute(
+    'SELECT * FROM books b WHERE b.isbn=:isbn',
+    {"isbn": isbn}
+  ).fetchall()
+  # Since db.execute(...).fetchall() returns a list of tuples
+  api_book
+  return render_template(
+    "api.html",
+    api_book=api_book,
+    isbn=isbn
+  )
