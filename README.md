@@ -32,3 +32,9 @@ Web Programming with Python and JavaScript
   ... when a user hits the "Submit" button, any key:value pair within the session{} dictionary that has key="user" gets popped, and then an IF conditional checks to make sure that the password is valid. If it is, then whatever was typed into the Username field from the <form> gets put into the session{} dictionary as {"user": username} or something similar I guess, and is stored as a cookie.
   
   ... anyways, the before_request() function will load this key:value pair into the g.user variable, and the g.user variable is used to determine whether or not a user can view index.html. As long as {"user": username} exists within the session{} dictionary then the user has an active session.
+
+- Another note: it's a good idea to add *.pyc to the .gitignore file, and additionally you can ask git to remove any *.pyc files that happen to already be tracked by git by running the following from the command line:
+
+  $ git rm --cached *.pyc
+
+  ... https://coderwall.com/p/wrxwog/why-not-to-commit-pyc-files-into-git-and-how-to-fix-if-you-already-did
