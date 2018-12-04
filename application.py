@@ -217,6 +217,16 @@ def book(id):
       user_reviews=user_reviews
     )
     db.commit()
+    # Get user & review data -again- so that new reviews show up as soon as they
+    # are submitted by a user
+    user_reviews = db.execute(
+      'SELECT r.user_id, r.book_id, r.rating, r.review, '
+      'u.id, u.username '
+      'FROM reviews as r '
+      'JOIN users u ON u.id = r.user_id '
+      'WHERE book_id=:id',
+      {"id": id}
+    ).fetchall()
     # Return specificbook.html upon a GET request
     return render_template(
       "specificbook.html", 
