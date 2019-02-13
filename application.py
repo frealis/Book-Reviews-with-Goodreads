@@ -246,7 +246,7 @@ def api(isbn):
     'SELECT * FROM books b WHERE b.isbn=:isbn',
     {"isbn": isbn}
   ).first()
-  # Since db.execute(...).fetchall() returns a list of tuples but we need to 
+  # Since db.execute(...).fetchall() returns a list of tuples, but we need to 
   # return the book's data in json format, we can manually put everyting in json
   # format by creating a dictionary of key:value pairs
   api_json_format = {}
