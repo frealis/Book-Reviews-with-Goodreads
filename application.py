@@ -1,6 +1,4 @@
-import json
-import os
-import requests
+import json, os, requests
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, g, redirect, render_template, request, session, url_for
 from flask_session import Session
@@ -66,7 +64,7 @@ def login():
       for user in users:
         if user.username == username and user.password == password:
           # If the username and password match a row in the database then store
-          # the username and id in the "session" 
+          # the username and id in the session variable.
           session['user'] = user.username
           session['id'] = user.id
           return redirect(url_for('index'))
@@ -85,14 +83,14 @@ def logout():
 def register():
   username = request.form.get('register_user_name')
   password = request.form.get('register_password')
-  info = "You must enter a username and a password."
-  taken = "Username is already taken."
   if username and password:
+    # Check to see if the username is already stored in the database
     users = db.execute("SELECT * FROM users").fetchall()
     for user in users:
       if user.username == username:
-        return render_template("login.html", alert=taken)
-    insert_new_user = db.execute(
+        return render_template("login.html", alert="Username is already taken.")
+    # Store username in database
+    db.execute(
       'INSERT INTO users (username, password) '
       'VALUES (:username_key, :password_key)', 
       {"username_key": username, "password_key": password}
@@ -103,7 +101,7 @@ def register():
     # session variable, but the user ID is unknown since it is only created by the
     # database after the INSERT query. The next SELECT query tries to find it.
     # Afterwards, once the id is known then it is assigned to the session
-    # dictionary.
+    # variable.
     user_id = db.execute(
       'SELECT id FROM users WHERE username=:username',
       {"username": username}
@@ -116,7 +114,7 @@ def register():
       username=session['user'],
       session=session
     )
-  return render_template("login.html", alert=info)
+  return render_template("login.html", alert="You must enter a username and a password.")
 
 @app.route("/search", methods=["POST"])
 def search():
@@ -132,7 +130,7 @@ def search():
       'OR LOWER(isbn) LIKE LOWER(:search_term)', 
       {"search_term": '%' + search_term + '%'}
     )
-    # Add the search results to matches[] and later return that list search.html
+    # Add the search results to matches[] and return it to search.html
     for search_result in search_results:
       matches.append(search_result)
     if matches == []:
@@ -144,7 +142,12 @@ def search():
       alert=no_results
     )
   else:
-    return "Must enter a search term."
+    return render_template(
+      "search.html", 
+      matches=matches, 
+      search_term=search_term, 
+      alert="Must enter a search term."
+    )
 
 @app.route("/<int:id>", methods=["GET", "POST"])
 def book(id):
@@ -179,7 +182,7 @@ def book(id):
       avg_rating = 0
     else:
       avg_rating = total_rating / number_of_ratings
-    # Get Goodreads data via their API
+    # Get Goodreads data via the Goodreads API
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": specific_book[0].isbn})
     res_json = res.json()
     res_json_avg = res_json['books'][0]['average_rating']
@@ -190,7 +193,7 @@ def book(id):
           user_review_exists = True
     # Run an INSERT query to add a review if the user hasn't entered one yet
     if request.method == "POST" and user_review_exists == False:
-      insert_review = db.execute(
+      db.execute(
         'INSERT INTO reviews (user_id, book_id, rating, review) '
         'VALUES (:user_id_key, :book_id_key, :rating_key, :write_review_key)',
         {
