@@ -1,6 +1,4 @@
-# Project 1
-
-Web Programming with Python and JavaScript
+# Web Programming with Python and JavaScript - Project 1
 
 - Using Powershell you can set environment variables manually from the command line:
 
