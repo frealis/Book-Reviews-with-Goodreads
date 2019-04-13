@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
   <!-- Custom CSS, JavaScript, Title -->
-
   {% block custom_css %} <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"> {% endblock %}
   {% block js %} <script src="{{ url_for('static', filename='js/index.js') }}"></script> {% endblock %}
   {% block title %} <title>CS50 - Book Reviews w/Goodreads - Index</title> {% endblock %}
@@ -9,31 +8,16 @@
 <!-- Body -->
 {% block body %}
 
-  <!-- Navbar/Login -->
-  <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="#">CS50 - Book Reviews w/Goodreads</a>
-    <div class="navbar-collapse">
-      <ul class="navbar-nav ml-auto">
-        <li>
-          <span>{{ alert }}</span>
+  <form action="/" method="post">
+    <nav class="navbar navbar-dark bg-dark flex-md-nowrap shadow">
+      <a class="navbar-brand col-lg-4" href="#">CS50 - Book Reviews w/Goodreads</a>
+      <input class="form-control form-control-dark" type="text" name="search_bar" placeholder="Enter title, author, or ISBN number" aria-label="Enter title, author, or ISBN number">
+      <!-- <input type="text" name="search_bar" placeholder="Enter title, author, or ISBN number"> -->
+      <ul class="navbar-nav px-md-3">
+        <li class="nav-item text-nowrap">
+          <button class="btn btn-outline-success my-2" type="submit">Search</button>
         </li>
       </ul>
-      <form class="form-inline mt-2 mt-md-0" action="/search" method="post">
-        <input type="text" name="search_bar" placeholder="Enter title, author, or ISBN number" aria-label="Enter title, author, or ISBN number" required>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav> -->
-
-  <form action="/search" method="post">
-    <nav class="navbar navbar-dark bg-dark flex-md-nowrap shadow">
-      <a class="navbar-brand col-sm-6 col-md-6" href="#">CS50 - Book Reviews w/Goodreads</a>
-        <input class="form-control form-control-dark" type="text" placeholder="Enter title, author, or ISBN number" aria-label="Enter title, author, or ISBN number">
-        <ul class="navbar-nav px-md-3">
-          <li class="nav-item text-nowrap">
-            <button class="btn btn-outline-success my-2" type="submit">Search</button>
-          </li>
-        </ul>
     </nav>
   </form>
 
@@ -47,6 +31,18 @@
       <input type="text" name="search_bar" placeholder="Enter title, author, or ISBN number">
       <button type="submit">Submit</button>
     </form> -->
+
+    <p>
+      <h4>Results for {{ search_term }}:</h4>
+      {{ alert }}
+      <ul>
+        {% for match in matches: %}
+          <li><a href="{{ url_for('book', id=match.id) }}">{{ match.title }}</a> by {{ match.author }} ({{ match.year }}), ISBN: {{ match.isbn }}</li>
+        {% endfor %}
+      </ul>
+    </p>
+
+
 
   </main>
 

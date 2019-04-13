@@ -23,7 +23,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Set up database
-engine = create_engine(os.getenv("DATABASE_URL"))
+# engine = create_engine(os.getenv("DATABASE_URL"))
+engine = create_engine('postgres://hkctkuzxxzwyhg:1afb8f91941a789c9c54601c2836918e373512df10b27811fd471d6be951db46@ec2-50-17-227-28.compute-1.amazonaws.com:5432/d6lahufpt62238')
 db = scoped_session(sessionmaker(bind=engine))
 
 # Make session['user'] available globally across multiple threads before every GET 
@@ -38,14 +39,41 @@ def before_request():
     g.id = session['id']
     g.user = session['user']
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
   if g.id and g.user:
-    return render_template(
-      "index.html", 
-      id=session['id'],
-      user=session['user']
-    )
+    if request.method == "POST":
+      search_term = request.form.get('search_bar')
+      matches = []
+      no_results = ''
+      if search_term:
+      # Convert the user's search input and database results all to lowercase
+        search_results = db.execute(
+          'SELECT * FROM books '
+          'WHERE LOWER(title) LIKE LOWER(:search_term) '
+          'OR LOWER(author) LIKE LOWER(:search_term) '
+          'OR LOWER(isbn) LIKE LOWER(:search_term)', 
+          {"search_term": '%' + search_term + '%'}
+        )
+        # Add the search results to matches[] and return it to search.html
+        for search_result in search_results:
+          matches.append(search_result)
+        if matches == []:
+          no_results = "There were no search results."
+        return render_template(
+          "index.html", 
+          matches=matches, 
+          search_term=search_term, 
+          alert=no_results
+        )
+      else:
+        return render_template(
+          "index.html", 
+          matches=matches, 
+          search_term=search_term, 
+          alert="Must enter a search term."
+        )
+    return render_template("index.html", id=session['id'], user=session['user'])
   return render_template("login.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -82,6 +110,8 @@ def logout():
 
 @app.route("/register", methods=["POST"])
 def register():
+  session.pop('user', None)
+  session.pop('id', None)
   username = request.form.get('register_user_name')
   password = request.form.get('register_password')
   if username and password:

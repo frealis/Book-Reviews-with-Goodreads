@@ -41,11 +41,11 @@
 
 - Creating a Login Page: https://www.youtube.com/watch?v=eBwhBrNbrNI
 
-- Login process:
+- Login & Sessions:
 
   1. The time between when a client logs on and logs off is called a "session", and Flask uses a "session object" to store information about a client during this time. So in Flask, a "session" is basically both a length of time and an object.
 
-  2. A "session object" is attached to a cookie and then encrypted, meaning that when it is stored on a client's browser it is visible to the client, but will appear as an encrypted jumble of characters. A "secret key" is used to sign the cookie in order to encrypt it. When creating an instance of a Flask application within app.py/application.py (or whatever the name of the controller file is) its secret key can be set like this:
+  2. When a client reigsters for a new account or signs in with an existing account, their username and user ID are stored in a "session object". A "session object" is basically a dictionary of key:value pairs used to represent an active session. Flask places the session object in a cookie and uses a "secret key" to encrypt it. When creating an instance of a Flask application within app.py/application.py (or whatever the name of the controller file is) its secret key can be set like this:
 
     > app = Flask(__name__)
     > app.secret_key = <secret key goes here>
@@ -54,11 +54,23 @@
 
     $ python -c 'import os; print(os.urandom(16))'
 
-  1. When a client visits the home page "/" the web application checks to see if g.user exists -- 'g' in Flask is a global variable, and in this web application it represents an active session (assuming that there is one). If no session exists then the client gets directed to login.html so that they can register/log in and create an active session.
-  
-  2. After loggin in, any key:value pair within the session{} dictionary that has key="user" gets popped (in case the client had previously logged in), and then the database is checked to make sure that the password is valid. If it is, then whatever username was submitted from the username field in the <form> is stored in the session{} dictionary.
-  
-  ... the before_request() function will assign session['user'] to g.user, and the g.user variable is used to determine whether or not a client has an active session and is able to view index.html. As long as {"user": username} exists within the session{} dictionary then the client has an active session.
+  3. Flask has a special function called before_request() that runs before each request, including GET and POST requests. This web application uses it to assign session['user'] and session['id'] to g.user and g.id, respectively. The 'g' variable is a special Flask variable that persists between client requests, so it essentially acts like a global variable. The web application uses it to represent a client's active session.
+
+# Importing Books to Database
+
+- Book information can be added to the database from a *.csv file using the import.py program located in the root folder. 
+
+# Search
+
+- The search "engine" will search for matches or partial matches within the Heroku Postgres database and return the results.
+
+# Book Information Pages
+
+- 
+
+
+
+
 
 - Another note: it's a good idea to add *.pyc to the .gitignore file, and additionally you can ask git to remove any *.pyc files that happen to already be tracked by git by running the following from the command line:
 
