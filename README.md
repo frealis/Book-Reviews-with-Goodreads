@@ -31,13 +31,15 @@
 
   $ heroku pg:psql <database-name> --app cs50-book-review-w-goodreads
 
-# Summary
+# Login
 
 - Creating a Login Page: https://www.youtube.com/watch?v=eBwhBrNbrNI
 
-  ... when a client visits the home page "/" the web application checks to see if g.user exists -- 'g' in Flask is a global variable, and in this web application it represents an active session (assuming that there is one). If no session exists then the client gets directed to login.html so that they can register/log in and create an active session.
+- Login process:
+
+  1. When a client visits the home page "/" the web application checks to see if g.user exists -- 'g' in Flask is a global variable, and in this web application it represents an active session (assuming that there is one). If no session exists then the client gets directed to login.html so that they can register/log in and create an active session.
   
-  ... when a client hits the "Submit" button, any key:value pair within the session{} dictionary that has key="user" gets popped (in case the client had previously logged in), and then the database is checked to make sure that the password is valid. If it is, then whatever username was submitted from the username field in the <form> is stored in the session{} dictionary.
+  2. After loggin in, any key:value pair within the session{} dictionary that has key="user" gets popped (in case the client had previously logged in), and then the database is checked to make sure that the password is valid. If it is, then whatever username was submitted from the username field in the <form> is stored in the session{} dictionary.
   
   ... the before_request() function will assign session['user'] to g.user, and the g.user variable is used to determine whether or not a client has an active session and is able to view index.html. As long as {"user": username} exists within the session{} dictionary then the client has an active session.
 

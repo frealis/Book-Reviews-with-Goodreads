@@ -49,13 +49,13 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+  session.pop('user', None)
+  session.pop('id', None)
   if request.method == "POST":
-    blank = "You must enter a username and a password."
+    error_blank = "Enter a username and a password >>"
+    error_wrong = "Incorrect username or password >>"
     password = request.form.get('password')
     username = request.form.get('user_name')
-    wrong = "Incorrect username or password."
-    session.pop('user', None)
-    session.pop('id', None)
     if username and password:
       # The db.execute method returns ResultProxy, which is a cursor/pointer. To 
       # retrieve the results you have to iterate over ResultProxy using a FOR loop, 
@@ -68,8 +68,8 @@ def login():
           session['user'] = user.username
           session['id'] = user.id
           return redirect(url_for('index'))
-      return render_template("login.html", alert=wrong)
-    return render_template("login.html", alert=blank)
+      return render_template("login.html", alert=error_wrong)
+    return render_template("login.html", alert=error_blank)
   return render_template("login.html")
 
 @app.route("/logout")
