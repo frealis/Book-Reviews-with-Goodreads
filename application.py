@@ -53,7 +53,7 @@ def login():
   session.pop('id', None)
   if request.method == "POST":
     error_blank = "Enter a username and a password >>"
-    error_wrong = "Incorrect username or password >>"
+    error_wrong = "Invalid username or password >>"
     password = request.form.get('password')
     username = request.form.get('user_name')
     if username and password:
