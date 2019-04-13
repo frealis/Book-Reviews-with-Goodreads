@@ -10,7 +10,6 @@
 
   $ $env:DATABASE_URL = "database URL"
   $ $env:FLASK_APP = "application.py"
-  $ $env:FLASK_DEBUG = "1"  // optional
   $ $env:GOODREADS_API_KEY = "goodsreads api key"
 
   ... or you can store the variables in a .env file within the root directory and retrieve them via dotenv: https://pypi.org/project/python-dotenv/#installation
@@ -18,6 +17,13 @@
   ... in Powershell you can see which environment variables have currently been set by typing:
 
     $ Get-ChildItem Env:
+
+- Enable development/debugging features w/traceback:
+
+  $ $env:FLASK_ENV = "development"  // debugger + automatic reloader
+  $ $env:FLASK_DEBUG = "1"          // debugger
+
+  ... make sure to disable these in production mode.
 
 - Start the Flask server:
 
@@ -36,6 +42,8 @@
 - Creating a Login Page: https://www.youtube.com/watch?v=eBwhBrNbrNI
 
 - Login process:
+
+  1. Flask uses a 
 
   1. When a client visits the home page "/" the web application checks to see if g.user exists -- 'g' in Flask is a global variable, and in this web application it represents an active session (assuming that there is one). If no session exists then the client gets directed to login.html so that they can register/log in and create an active session.
   
