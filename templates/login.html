@@ -19,7 +19,7 @@
       </ul>
       <form class="form-inline mt-2 mt-md-0" action="/login" method="post">
         <input class="form-control mr-sm-2 input" type="text" name="user_name" placeholder="Username" aria-label="Username" required>
-        <input class="form-control mr-sm-2 input" type="text" name="password" placeholder="Password" aria-label="Password" required>
+        <input class="form-control mr-sm-2 input" type="password" name="password" placeholder="Password" aria-label="Password" required>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log In</button>
       </form>
     </div>
@@ -37,8 +37,8 @@
       </div>
 
       <!-- Create a new account -->
-      <a id="create_an_account"></a>
       <div class="col-md-6 create-an-account">
+        <a id="create_an_account"></a>
         <form class="form" action="/register" method="post">
           <h1 class="h3 mb-3">Create an account</h1>
 
@@ -46,11 +46,13 @@
           <input type="text" name="register_user_name" class="form-control input" placeholder="Username" required>
           
           <label for="inputPassword" class="sr-only">Password</label>
-          <input type="password" name="register_password" class="form-control input" placeholder="Password" required>
+          <input type="password" id="register_password" name="register_password" class="form-control input" placeholder="Password" required>
           
           <label for="inputPassword" class="sr-only">Password (again)</label>
-          <input type="password" name="register_password_again" class="form-control input" placeholder="Password (again)" required>
+          <input type="password" id="register_password_again" name="register_password_again" class="form-control input" placeholder="Password (again)" required>
           
+          <p><span id="passwords_match"></span>
+
           <button class="btn btn-lg btn-primary btn-block register-button" type="submit">Register</button>
         </form>
       </div>
