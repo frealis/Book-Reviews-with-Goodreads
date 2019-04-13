@@ -43,7 +43,16 @@
 
 - Login process:
 
-  1. Flask uses a 
+  1. The time between when a client logs on and logs off is called a "session", and Flask uses a "session object" to store information about a client during this time. So in Flask, a "session" is basically both a length of time and an object.
+
+  2. A "session object" is attached to a cookie and then encrypted, meaning that when it is stored on a client's browser it is visible to the client, but will appear as an encrypted jumble of characters. A "secret key" is used to sign the cookie in order to encrypt it. When creating an instance of a Flask application within app.py/application.py (or whatever the name of the controller file is) its secret key can be set like this:
+
+    > app = Flask(__name__)
+    > app.secret_key = <secret key goes here>
+
+    ... to generate a random key from the command line:
+
+    $ python -c 'import os; print(os.urandom(16))'
 
   1. When a client visits the home page "/" the web application checks to see if g.user exists -- 'g' in Flask is a global variable, and in this web application it represents an active session (assuming that there is one). If no session exists then the client gets directed to login.html so that they can register/log in and create an active session.
   

@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
+app.secret_key=os.getenv("SECRET_KEY")
 
 # Load environment variables 
 load_dotenv(find_dotenv())
