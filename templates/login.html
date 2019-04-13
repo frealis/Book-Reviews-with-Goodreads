@@ -1,28 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- Meta Tags -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% extends "layout.html" %}
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Custom CSS, JavaScript, Title -->
+  {% block custom_css %} <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"> {% endblock %}
+  {% block js %} <script src="{{ url_for('static', filename='js/login.js') }}"></script> {% endblock %}
+  {% block title %} <title>CS50 - Book Reviews w/Goodreads - Login</title> {% endblock %}
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-
-  <!-- JavaScript -->
-  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
-
-  <!-- Source -->
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
-
-  <!-- Title -->
-  <title>CS50 - Book Reviews w/Goodreads - Login</title>
-</head>
-
-<body>
+<!-- Body -->
+{% block body %}
 
   <!-- Navbar/Login -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -73,5 +57,4 @@
     </div>
   </main>
 
-  </body>
-</html>
+{% endblock %}
