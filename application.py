@@ -16,7 +16,6 @@ FLASK_APP = os.getenv("FLASK_APP")
 FLASK_DEBUG = os.getenv("FLASK_DEBUG")
 GOODREADS_API_KEY = os.getenv("GOODREADS_API_KEY")
 
-
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -29,6 +28,7 @@ db = scoped_session(sessionmaker(bind=engine))
 # Make session['user'] available globally across multiple threads before every GET 
 # or POST request using 'g', which is a Flask object that basically functions as
 # a global variable
+# https://www.youtube.com/watch?v=eBwhBrNbrNI
 @app.before_request
 def before_request():
   g.id = None

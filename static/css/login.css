@@ -1,0 +1,28 @@
+/* .main {
+  flex: 1;
+} */
+html {
+  scroll-behavior: smooth;
+}
+
+.create-an-account {
+  padding: 40px;
+}
+
+.form {
+  margin: auto;
+  max-width: 300px;
+}
+
+.input {
+  max-width: 300px;
+  margin: 8px 0;
+}
+
+.introduction {
+  padding: 40px;
+}
+
+.register-button {
+  max-width: 200px;
+}
