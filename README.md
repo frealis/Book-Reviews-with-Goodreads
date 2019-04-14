@@ -58,11 +58,15 @@
 
 # Importing Books to Database
 
-- Book information can be added to the database from a *.csv file using the import.py program located in the root folder. 
+- Book information can be added to the database from a *.csv file using the import.py program located in the root folder. Alternatively, you could use the COPY command in Postgres:
+
+  db=> \copy test (isbn, title, author, year) from 'books.csv' delimiter ',' csv;
+
+  ... https://www.postgresql.org/docs/9.2/sql-copy.html
 
 # Search
 
-- The search "engine" will search for matches or partial matches within the Heroku Postgres database and return the results.
+- The search function will search for matches or partial isbn, book title, or  author matches within the Heroku Postgres database and return the results.
 
 # Book Information Pages
 
