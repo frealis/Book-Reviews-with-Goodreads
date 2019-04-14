@@ -23,8 +23,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Set up database
-# engine = create_engine(os.getenv("DATABASE_URL"))
-engine = create_engine('postgres://hkctkuzxxzwyhg:1afb8f91941a789c9c54601c2836918e373512df10b27811fd471d6be951db46@ec2-50-17-227-28.compute-1.amazonaws.com:5432/d6lahufpt62238')
+engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 # Make session['user'] available globally across multiple threads before every GET 
