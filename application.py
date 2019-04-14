@@ -43,17 +43,29 @@ def index():
   if g.id and g.user:
     if request.method == "POST":
       search_term = request.form.get('search_bar')
+      # https://stackoverflow.com/questions/32022568/get-value-of-a-form-input-by-id-python-flask
+      results_limit = request.form.get("results_limit", "")
       matches = []
       no_results = ''
       if search_term:
       # Convert the user's search input and database results all to lowercase
-        search_results = db.execute(
-          'SELECT * FROM books '
-          'WHERE LOWER(title) LIKE LOWER(:search_term) '
-          'OR LOWER(author) LIKE LOWER(:search_term) '
-          'OR LOWER(isbn) LIKE LOWER(:search_term)', 
-          {"search_term": '%' + search_term + '%'}
-        )
+        if results_limit != 42:
+          search_results = db.execute(
+            'SELECT * FROM books '
+            'WHERE LOWER(title) LIKE LOWER(:search_term) '
+            'OR LOWER(author) LIKE LOWER(:search_term) '
+            'OR LOWER(isbn) LIKE LOWER(:search_term) '
+            'LIMIT :results_limit', 
+            {"search_term": '%' + search_term + '%',
+            "results_limit": results_limit}) 
+        else:
+          search_results = db.execute(
+            'SELECT * FROM books '
+            'WHERE LOWER(title) LIKE LOWER(:search_term) '
+            'OR LOWER(author) LIKE LOWER(:search_term) '
+            'OR LOWER(isbn) LIKE LOWER(:search_term) ',
+            {"search_term": '%' + search_term + '%'})
+
         # Add the search results to matches[] and return it to search.html
         for search_result in search_results:
           matches.append(search_result)
@@ -63,15 +75,17 @@ def index():
           "index.html", 
           matches=matches, 
           search_term=search_term, 
-          alert=no_results
-        )
+          alert=no_results,
+          id=session['id'],
+          user=session['user'],)
       else:
         return render_template(
           "index.html", 
           matches=matches, 
           search_term=search_term, 
-          alert="Must enter a search term."
-        )
+          alert="Must enter a search term.",
+          id=session['id'],
+          user=session['user'],)
     return render_template("index.html", id=session['id'], user=session['user'])
   return render_template("login.html")
 
@@ -123,8 +137,7 @@ def register():
     db.execute(
       'INSERT INTO users (username, password) '
       'VALUES (:username_key, :password_key)', 
-      {"username_key": username, "password_key": password}
-    )
+      {"username_key": username, "password_key": password})
     db.commit()
     # Once the user successfully registers an account then the username that was
     # retrieved from the <form> on the register.html page is assigned to the 
@@ -134,16 +147,14 @@ def register():
     # variable.
     user_id = db.execute(
       'SELECT id FROM users WHERE username=:username',
-      {"username": username}
-    ).fetchall()
+      {"username": username}).fetchall()
     session['id'] = user_id[0][0]
     session['user'] = username
     return render_template(
       "register.html", 
       user_id=session['id'],
       username=session['user'],
-      session=session
-    )
+      session=session)
   return render_template("login.html", alert="You must enter a username and a password.")
 
 @app.route("/search", methods=["POST"])
@@ -158,8 +169,7 @@ def search():
       'WHERE LOWER(title) LIKE LOWER(:search_term) '
       'OR LOWER(author) LIKE LOWER(:search_term) '
       'OR LOWER(isbn) LIKE LOWER(:search_term)', 
-      {"search_term": '%' + search_term + '%'}
-    )
+      {"search_term": '%' + search_term + '%'})
     # Add the search results to matches[] and return it to search.html
     for search_result in search_results:
       matches.append(search_result)
@@ -169,15 +179,13 @@ def search():
       "search.html", 
       matches=matches, 
       search_term=search_term, 
-      alert=no_results
-    )
+      alert=no_results)
   else:
     return render_template(
       "search.html", 
       matches=matches, 
       search_term=search_term, 
-      alert="Must enter a search term."
-    )
+      alert="Must enter a search term.")
 
 @app.route("/<int:id>", methods=["GET", "POST"])
 def book(id):
@@ -193,8 +201,7 @@ def book(id):
     specific_book = db.execute(
       'SELECT * FROM books '
       'WHERE id=:id',
-      {"id": id}
-    ).fetchall()
+      {"id": id}).fetchall()
     # Get user & review data 
     user_reviews = db.execute(
       'SELECT r.user_id, r.book_id, r.rating, r.review, '
@@ -202,8 +209,7 @@ def book(id):
       'FROM reviews as r '
       'JOIN users u ON u.id = r.user_id '
       'WHERE book_id=:id',
-      {"id": id}
-    ).fetchall()
+      {"id": id}).fetchall()
     # Get the average rating
     for user_rating in user_reviews:
       total_rating = total_rating + user_rating.rating
@@ -234,8 +240,7 @@ def book(id):
           "book_id_key": id, 
           "rating_key": rating,
           "write_review_key": write_review
-        }
-      )
+        })
     # Return an error message if the user has already submitted a review
     elif request.method == "POST" and user_review_exists == True:
       return render_template(
@@ -247,8 +252,7 @@ def book(id):
       res_json_avg=res_json_avg,
       res_json_count=res_json_count,
       specific_book=specific_book,
-      user_reviews=user_reviews
-    )
+      user_reviews=user_reviews)
     db.commit()
     # Get user & review data -again- so that new reviews show up as soon as they
     # are submitted by a user
@@ -258,8 +262,7 @@ def book(id):
       'FROM reviews as r '
       'JOIN users u ON u.id = r.user_id '
       'WHERE book_id=:id',
-      {"id": id}
-    ).fetchall()
+      {"id": id}).fetchall()
     # Return specificbook.html upon a GET request
     return render_template(
       "specificbook.html", 
@@ -270,15 +273,13 @@ def book(id):
       res_json_avg=res_json_avg,
       res_json_count=res_json_count,
       specific_book=specific_book,
-      user_reviews=user_reviews
-    )
+      user_reviews=user_reviews)
 
 @app.route("/api/<string:isbn>")
 def api(isbn):
   api_book = db.execute(
     'SELECT * FROM books b WHERE b.isbn=:isbn',
-    {"isbn": isbn}
-  ).first()
+    {"isbn": isbn}).first()
   # Since db.execute(...).fetchall() returns a list of tuples, but we need to 
   # return the book's data in json format, we can manually put everyting in json
   # format by creating a dictionary of key:value pairs
@@ -306,5 +307,4 @@ def api(isbn):
     api_json_format=api_json_format,
     api_title=api_title,
     api_year=api_year,
-    isbn=isbn
-  )
+    isbn=isbn)

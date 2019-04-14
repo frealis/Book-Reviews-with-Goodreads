@@ -9,41 +9,49 @@
 {% block body %}
 
   <form action="/" method="post">
-    <nav class="navbar navbar-dark bg-dark flex-md-nowrap shadow">
-      <a class="navbar-brand col-lg-4" href="#">CS50 - Book Reviews w/Goodreads</a>
-      <input class="form-control form-control-dark" type="text" name="search_bar" placeholder="Enter title, author, or ISBN number" aria-label="Enter title, author, or ISBN number">
-      <!-- <input type="text" name="search_bar" placeholder="Enter title, author, or ISBN number"> -->
-      <ul class="navbar-nav px-md-3">
-        <li class="nav-item text-nowrap">
-          <button class="btn btn-outline-success my-2" type="submit">Search</button>
-        </li>
-      </ul>
+    <nav class="navbar-dark bg-dark shadow">
+      <div class="row p-3">
+        <a class="navbar-brand col-md-4" href="#">CS50 - Book Reviews w/Goodreads</a>
+        <div class="input-group col-md-7 ml-auto">
+          <input type="text" class="form-control" name="search_bar" placeholder="Search books" aria-label="Search books">
+          <!-- Store search results limit value here -->
+          <input value="5" type="hidden" id="results_limit" name="results_limit">
+          <div class="input-group-append" style="margin-bottom: 1px">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+            <button class="btn btn-outline-secondary dropdown-toggle" id="dropdown-selection" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show 5 Results</button>
+            
+            <div class="dropdown-menu">
+              <a class="dropdown-item" data-results="5" id="show-5-results" href="#">Show 5 Results</a>
+              <a class="dropdown-item" data-results="10" id="show-10-results" href="#">Show 10 Results</a>
+              <a class="dropdown-item" data-results="20" id="show-20-results" href="#">Show 20 Results</a>
+              <div role="separator" class="dropdown-divider"></div>
+              <a class="dropdown-item" data-results="42" id="show-all-results" href="#">Show All</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
   </form>
 
-  
   <main role="main" class="main">
+    <div class="container">
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <p>Welcome, {{ user }} with user_id: {{ id }}!</p>
+          <a href="{{ url_for('logout')}}">Logout</a>
+        </div>
 
-    <p>Welcome, {{ user }} with user_id: {{ id }}!</p>
-    <a href="{{ url_for('logout')}}">Logout</a>
-    <!-- <form action="/search" method="post">
-      Search:<br>
-      <input type="text" name="search_bar" placeholder="Enter title, author, or ISBN number">
-      <button type="submit">Submit</button>
-    </form> -->
-
-    <p>
-      <h4>Results for {{ search_term }}:</h4>
-      {{ alert }}
-      <ul>
-        {% for match in matches: %}
-          <li><a href="{{ url_for('book', id=match.id) }}">{{ match.title }}</a> by {{ match.author }} ({{ match.year }}), ISBN: {{ match.isbn }}</li>
-        {% endfor %}
-      </ul>
-    </p>
-
-
-
+        <div class="col-md-8">
+          <h6>Results for {{ search_term }}:</h6>
+          {{ alert }}
+          <ul>
+            {% for match in matches: %}
+              <li><a href="{{ url_for('book', id=match.id) }}">{{ match.title }}</a> by {{ match.author }} ({{ match.year }}), ISBN: {{ match.isbn }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
   </main>
 
 {% endblock %}
