@@ -4,6 +4,7 @@ from flask import Flask, g, redirect, render_template, request, session, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from string import Template
 
 app = Flask(__name__)
 app.secret_key=os.getenv("SECRET_KEY")
@@ -71,10 +72,12 @@ def index():
           matches.append(search_result)
         if matches == []:
           no_results = "There were no search results."
+        search_message = 'Search results for '
         return render_template(
           "index.html", 
           matches=matches, 
-          search_term=search_term, 
+          search_message=search_message,
+          search_term=Template('"$search_term": ').substitute(search_term=search_term),
           alert=no_results,
           id=session['id'],
           user=session['user'],)
@@ -82,7 +85,8 @@ def index():
         return render_template(
           "index.html", 
           matches=matches, 
-          search_term=search_term, 
+          search_message='', 
+          search_term='',
           alert="Must enter a search term.",
           id=session['id'],
           user=session['user'],)

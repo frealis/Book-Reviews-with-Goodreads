@@ -66,7 +66,7 @@
 
 # Search
 
-- The search function will search for matches or partial isbn, book title, or  author matches within the Heroku Postgres database and return the results.
+- The search function will search for matches or partial isbn, book title, or  author matches within the Heroku Postgres database and return the results. Clients can also limit the number of books that are returned from search results.
 
 # Book Information Pages
 
