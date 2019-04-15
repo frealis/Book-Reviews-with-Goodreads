@@ -1,18 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  console.log('dom content loaded');
+  // Disable the "Register" button by default
   document.querySelector('.register-button').disabled = true;
 
+  // Create constants for 'Create an account' password input fields
   const register_password = document.querySelector('#register_password')
   const register_password_again = document.querySelector('#register_password_again')
 
+  // Assign 'keyup' event listeners to the 'Create an account' password input 
+  // fields
   register_password.addEventListener('keyup', passwordsMatch);
   register_password_again.addEventListener('keyup', passwordsMatch);
 
+  // Determine whether the client-entered passwords match, and enable 'Register'
+  // button if so. Also display messages in the DOM to let the client know
+  // whether or not their passwords match
   function passwordsMatch() {
-    console.log('register_password.value: ', register_password.value)
-    console.log('register_password_again.value: ', register_password_again.value)
-
     if (register_password.value.length !== 0 && register_password_again.value.length !== 0) {
       if (register_password.value === register_password_again.value) {
         document.querySelector('.register-button').disabled = false;
@@ -29,6 +32,5 @@ document.addEventListener('DOMContentLoaded', function() {
       document.querySelector('#passwords_match').innerHTML = ''
     };
   }
-
 
 });
