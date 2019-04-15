@@ -46,7 +46,7 @@
         <a href="{{ url_for('logout')}}">Logout</a>
       </div>
 
-      <div class="col-md-8" id="search-results">
+      <div class="col-md-8 mt-3 mt-md-0" id="search-results">
         <h6 id="search-results-message">{{ search_message }}{{ search_term }}{{ alert }}</h6>
         <ul>
           {% for match in matches: %}
