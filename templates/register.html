@@ -1,19 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>register.html</title>
-</head>
-<body>
-  <p>
-      You have successfully registered! <a href="/">Click here</a> to continue.
-  </p>
-  <p>
-    user_id: {{ user_id }}<br>
-    username: {{ username }}<br>
-    session: {{ session }}
-  </p>
-</body>
-</html>
+{% extends "layout.html" %}
+
+  <!-- Custom CSS, JavaScript, Title -->
+  {% block custom_css %} <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"> {% endblock %}
+  {% block js %} <script src="{{ url_for('static', filename='js/index.js') }}"></script> {% endblock %}
+  {% block title %} <title>CS50 - Book Reviews w/Goodreads - Index</title> {% endblock %}
+
+  <!-- Body -->
+{% block body %}
+<div class="container">
+
+  <!-- Header & Logo -->
+  <div id="header-background-wrapper">
+    <div id="header-background">
+      <img id="header-logo" src="{{ url_for('static', filename='img/book-review-logo-01.svg') }}">
+    </div>
+  </div>
+  
+  <!-- User Panel/Logout -->
+  <div class="row w-100 mt-3">
+    <div class="w-100" id="user-panel" style="text-align: center">
+      <h6>Welcome {{ user }}, You have successfully registered! <a href="/">Click here</a> to continue.</h6>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
