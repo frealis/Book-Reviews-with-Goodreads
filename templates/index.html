@@ -48,10 +48,10 @@
 
     <!-- Search Results -->
     <div class="col-md-8 mt-3 mt-md-0" id="search-results">
-      <h6 id="search-results-message">{{ search_message }}{{ search_term }}{{ alert }}</h6>
+      <h6 id="search-results-message">{{ search_results_message }}{{ alert }}</h6>
       <ul>
-        {% for match in matches: %}
-          <li><a href="{{ url_for('book', book_id=match.id) }}">{{ match.title }}</a> by {{ match.author }} ({{ match.year }}), ISBN: {{ match.isbn }}</li>
+        {% for search_result in search_results_list: %}
+          <li><a href="{{ url_for('book', book_id=search_result.id) }}">{{ search_result.title }}</a> by {{ search_result.author }} ({{ search_result.year }}), ISBN: {{ search_result.isbn }}</li>
         {% endfor %}
       </ul>
     </div>

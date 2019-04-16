@@ -42,15 +42,22 @@ def before_request():
 @app.route("/", methods=["GET", "POST"])
 def index():
   if g.id and g.user:
+    alert=''
+    # search_message=''
+    search_results_list = []
+    search_results_message = ''
+    search_term = ''
     if request.method == "POST":
-      search_term = request.form.get('search_bar')
+
+      # This is a sort of hack using the *.get() method to get data that is not
+      # normally returned by a standard POST request - normally this would 
+      # probably be accomplished with an AJAX request.
       # https://stackoverflow.com/questions/32022568/get-value-of-a-form-input-by-id-python-flask
       results_limit = request.form.get("results_limit", "")
-      matches = []
-      no_results = ''
+      search_term = request.form.get('search_bar')
       if search_term:
-        # 42 was arbitrarily chosen to represent all, or infinity
-        if results_limit != 42:
+        if results_limit != 42: # 42 was arbitrarily chosen to represent all
+
           # Convert the user's search input and database results all to lowercase
           search_results = db.execute(
             'SELECT * FROM books '
@@ -67,30 +74,29 @@ def index():
             'OR LOWER(author) LIKE LOWER(:search_term) '
             'OR LOWER(isbn) LIKE LOWER(:search_term) ',
             {"search_term": '%' + search_term + '%'})
-        # Add the search results to matches[] and return it to index.html
+
+        # Add the search results to search_results_list[] and return it to 
+        # index.html, or set error message if there are no search matches
         for search_result in search_results:
-          matches.append(search_result)
-        if matches == []:
-          no_results = "There were no search results."
-        search_message = 'Search results for '
-        return render_template(
-          "index.html", 
-          matches=matches, 
-          search_message=search_message,
-          search_term=Template('"$search_term": ').substitute(search_term=search_term),
-          alert=no_results,
-          id=g.id,
-          user=g.user,)
+          search_results_list.append(search_result)
+        if search_results_list == []:
+          alert = "There were no search results."
+        # search_message = 'Search results for '
+        search_results_message=Template('Search results for "$search_term": ').substitute(search_term=search_term)
+      
+      # Set error message if client submits a search with no search term
       else:
-        return render_template(
-          "index.html", 
-          matches=matches, 
-          search_message='', 
-          search_term='',
-          alert="Must enter a search term.",
-          id=g.id,
-          user=g.user,)
-    return render_template("index.html", id=g.id, user=g.user)
+        alert="Must enter a search term."
+    
+    # Render index.html after a GET or POST request
+    return render_template(
+      "index.html", 
+      search_results_list=search_results_list, 
+      search_results_message=search_results_message, 
+      search_term=search_term,
+      alert=alert,
+      id=g.id,
+      user=g.user,)
   return render_template("login.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -171,11 +177,13 @@ def book(book_id):
   write_review = request.form.get('write_review')
   error = ''
   if book_id:
+
     # Get information on the book
     specific_book = db.execute(
       'SELECT * FROM books '
       'WHERE id=:id',
       {"id": book_id}).fetchall()
+
     # Get user ratings & reviews
     user_reviews = db.execute(
       'SELECT r.user_id, r.book_id, r.rating, r.review, '
@@ -184,6 +192,7 @@ def book(book_id):
       'JOIN users u ON u.id = r.user_id '
       'WHERE book_id=:id',
       {"id": book_id}).fetchall()
+      
     # Get the average user rating
     for user_rating in user_reviews:
       ratings_sum = ratings_sum + user_rating.rating
@@ -193,10 +202,6 @@ def book(book_id):
     else:
       ratings_avg = ratings_sum / ratings_count
 
-    print('===== GET ===== ratings_sum: ', ratings_sum)
-    print('===== GET ===== ratings_count: ', ratings_count)
-    print('===== GET ===== ratings_avg: ', ratings_avg)
-
     # Get Goodreads data via the Goodreads API
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": specific_book[0].isbn})
     res_json = res.json()
@@ -204,16 +209,19 @@ def book(book_id):
     res_json_count = res_json['books'][0]['work_reviews_count']
 
     if request.method == "POST":
+
       # Check to see if user has already reviewed a specific book
       for i in user_reviews:
           if i.username == g.user:
             user_review_exists = True
+
       # Run an INSERT query to add a review if the user hasn't entered one yet
       if user_review_exists == False:
         db.execute(
           'INSERT INTO reviews (user_id, book_id, rating, review) '
           'VALUES (:user_id_key, :book_id_key, :rating_key, :write_review_key)',
           {
+
             # The user_id_key value comes from the global 'id' variable that is 
             # tied to a user's current, active session. The book_id_key value 
             # comes from the argument that gets passed to the book(book_id) 
@@ -224,6 +232,7 @@ def book(book_id):
             "write_review_key": write_review
           })
         db.commit()
+
         # Get -updated- user ratings & reviews
         user_reviews = db.execute(
           'SELECT r.user_id, r.book_id, r.rating, r.review, '
@@ -232,6 +241,7 @@ def book(book_id):
           'JOIN users u ON u.id = r.user_id '
           'WHERE book_id=:id',
           {"id": book_id}).fetchall()
+
         # Reset the ratings values so that they can be re-calculated & updated
         ratings_avg = 0
         ratings_count = 0
