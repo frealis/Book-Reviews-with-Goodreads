@@ -33,13 +33,15 @@ db = scoped_session(sessionmaker(bind=engine))
 # https://www.youtube.com/watch?v=eBwhBrNbrNI
 @app.before_request
 def before_request():
+  g.id = None
   g.user = None
-  if 'user' in session:
+  if 'user' and 'id' in session:
+    g.id = session['id']
     g.user = session['user']
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-  if g.user:
+  if g.id and g.user:
     if request.method == "POST":
       search_term = request.form.get('search_bar')
       # https://stackoverflow.com/questions/32022568/get-value-of-a-form-input-by-id-python-flask
@@ -47,9 +49,8 @@ def index():
       matches = []
       no_results = ''
       if search_term:
-        # 42 is arbitrarily chosen to represent all, or infinity
+      # Convert the user's search input and database results all to lowercase
         if results_limit != 42:
-          # Convert the user's search input and database results all to lowercase
           search_results = db.execute(
             'SELECT * FROM books '
             'WHERE LOWER(title) LIKE LOWER(:search_term) '
@@ -78,6 +79,7 @@ def index():
           search_message=search_message,
           search_term=Template('"$search_term": ').substitute(search_term=search_term),
           alert=no_results,
+          id=g.id,
           user=g.user,)
       else:
         return render_template(
@@ -86,14 +88,16 @@ def index():
           search_message='', 
           search_term='',
           alert="Must enter a search term.",
+          id=g.id,
           user=g.user,)
     # return render_template("index.html", id=session['id'], user=session['user'])
-    return render_template("index.html", user=g.user)
+    return render_template("index.html", id=g.id, user=g.user)
   return render_template("login.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
   session.pop('user', None)
+  session.pop('id', None)
   if request.method == "POST":
     error_blank = "Enter a username and a password >>"
     error_wrong = "Invalid username or password >>"
@@ -118,12 +122,14 @@ def login():
 @app.route("/logout")
 def logout():
   session.pop('user', None)
+  session.pop('id', None)
   info = "You have successfully logged out."
   return render_template("login.html", alert=info)
 
 @app.route("/register", methods=["POST"])
 def register():
   session.pop('user', None)
+  session.pop('id', None)
   username = request.form.get('register_user_name')
   password = request.form.get('register_password')
   if username and password:
@@ -140,11 +146,20 @@ def register():
     db.commit()
     # Once the user successfully registers an account then the username that was
     # retrieved from the <form> on the register.html page is assigned to the 
-    # session variable
+    # session variable, but the user ID is unknown since it is only created by the
+    # database after the INSERT query. The next SELECT query tries to find it.
+    # Afterwards, once the id is known then it is assigned to the session
+    # variable.
+    user_id = db.execute(
+      'SELECT id FROM users WHERE username=:username',
+      {"username": username}).fetchall()
+    session['id'] = user_id[0][0]
     session['user'] = username
     return render_template(
       "register.html", 
-      user=session['user'],)
+      user_id=session['id'],
+      username=session['user'],
+      session=session)
   return render_template("login.html", alert="You must enter a username and a password.")
 
 @app.route("/book/<int:id>", methods=["GET", "POST"])
