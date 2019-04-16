@@ -94,7 +94,6 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
   session.pop('user', None)
-  session.pop('id', None)
   if request.method == "POST":
     error_blank = "Enter a username and a password >>"
     error_wrong = "Invalid username or password >>"
@@ -119,7 +118,6 @@ def login():
 @app.route("/logout")
 def logout():
   session.pop('user', None)
-  session.pop('id', None)
   info = "You have successfully logged out."
   return render_template("login.html", alert=info)
 
