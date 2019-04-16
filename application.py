@@ -124,7 +124,6 @@ def logout():
 @app.route("/register", methods=["POST"])
 def register():
   session.pop('user', None)
-  session.pop('id', None)
   username = request.form.get('register_user_name')
   password = request.form.get('register_password')
   if username and password:
@@ -141,20 +140,11 @@ def register():
     db.commit()
     # Once the user successfully registers an account then the username that was
     # retrieved from the <form> on the register.html page is assigned to the 
-    # session variable, but the user ID is unknown since it is only created by the
-    # database after the INSERT query. The next SELECT query tries to find it.
-    # Afterwards, once the id is known then it is assigned to the session
-    # variable.
-    user_id = db.execute(
-      'SELECT id FROM users WHERE username=:username',
-      {"username": username}).fetchall()
-    session['id'] = user_id[0][0]
+    # session variable
     session['user'] = username
     return render_template(
       "register.html", 
-      user_id=session['id'],
-      user=session['user'],
-      session=session)
+      user=session['user'],)
   return render_template("login.html", alert="You must enter a username and a password.")
 
 @app.route("/book/<int:id>", methods=["GET", "POST"])
