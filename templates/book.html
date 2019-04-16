@@ -67,8 +67,8 @@
     </p>
     <p>
       <h4>Average rating & number of ratings from Goodreads:</h4>
-      Average rating: {{ res_json_avg }}<br>
-      Number of reviews: {{ res_json_count }}
+      Average rating: {{ goodreads_response_json_avg }}<br>
+      Number of reviews: {{ goodreads_response_json_count }}
     </p>
     <p>
       <h4>Write a review & rate this book:</h4>
@@ -86,13 +86,7 @@
       </form>
       <br>{{ error }}
     </p>
-    <p>
-      ratings_avg: {{ ratings_avg }}<br>
-      book_id: {{ book_id }}<br>
-      res: {{ res }}<br>
-      specific_book: {{ specific_book }}<br>
-      user_reviews: {{ user_reviews }}
-    </p>
+
 
 
 

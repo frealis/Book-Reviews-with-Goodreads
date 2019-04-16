@@ -96,7 +96,7 @@
 
 # Book Information Pages
 
-- 
+- Each book has an assigned 'id' value, and when a client selects an individual book from the search results they are directed the specific book's information page via /book/<id>. 
 
 
 

@@ -39,7 +39,7 @@ def before_request():
     g.id = session['id']
     g.user = session['user']
 
-# Handle index "/" route
+# ==================== Handle INDEX route ====================
 @app.route("/", methods=["GET", "POST"])
 def index():
   if g.id and g.user:
@@ -99,25 +99,28 @@ def index():
       "index.html", 
       search_results_list=search_results_list, 
       search_results_message=search_results_message, 
-      search_term=search_term,
       alert=alert,
-      id=g.id,
       user=g.user,)
 
   # Send client to login.html if there is no active session
   return render_template("login.html")
 
+# ==================== Handle LOGIN route ====================
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
   # Remove active session if it exists
   session.pop('user', None)
   session.pop('id', None)
+
+  # Handle POST requests
   if request.method == "POST":
     error_blank = "Enter a username and a password >>"
     error_wrong = "Invalid username or password >>"
     password = request.form.get('password')
     username = request.form.get('user_name')
+
+    # Check that the user entered both a username and a password
     if username and password:
 
       # The db.execute method returns ResultProxy, which is a cursor/pointer. To 
@@ -126,58 +129,87 @@ def login():
       users = db.execute("SELECT * FROM users").fetchall()
       for user in users:
         if user.username == username and user.password == password:
-          # If the username and password match a row in the database then store
-          # the username and id in the session variable.
+
+          # If the username and password match a row in the database then this 
+          # indicates a valid username/password combination, so the next step
+          # is to create an active session by storing the username and id in the 
+          # session variable.
           session['user'] = user.username
           session['id'] = user.id
           return redirect(url_for('index'))
+      
+      # Send client back to login page if username/password combination does not 
+      # exist.
       return render_template("login.html", alert=error_wrong)
+
+    # Send client back to login page if username and/or password field is blank.
     return render_template("login.html", alert=error_blank)
+
+  # Render login.html on a GET request.
   return render_template("login.html")
 
+# ==================== Handle LOGOUT route ====================
 @app.route("/logout")
 def logout():
+
+  # Remove active session if it exists.
   session.pop('user', None)
   session.pop('id', None)
   info = "You have successfully logged out."
   return render_template("login.html", alert=info)
 
+# ==================== Handle REGISTER route ====================
 @app.route("/register", methods=["POST"])
 def register():
+
+  # Remove active session if it exists.
   session.pop('user', None)
   session.pop('id', None)
-  username = request.form.get('register_user_name')
-  password = request.form.get('register_password')
-  if username and password:
-    # Check to see if the username is already stored in the database
-    users = db.execute("SELECT * FROM users").fetchall()
-    for user in users:
-      if user.username == username:
-        return render_template("login.html", alert="Username is already taken.")
-    # Store username in database
-    db.execute(
-      'INSERT INTO users (username, password) '
-      'VALUES (:username_key, :password_key)', 
-      {"username_key": username, "password_key": password})
-    db.commit()
-    # Once the user successfully registers an account then the username that was
-    # retrieved from the <form> on the register.html page is assigned to the 
-    # session variable, but the user ID is unknown since it is only created by the
-    # database after the INSERT query. The next SELECT query tries to find it.
-    # Afterwards, once the id is known then it is assigned to the session
-    # variable.
-    user_id = db.execute(
-      'SELECT id FROM users WHERE username=:username',
-      {"username": username}).fetchall()
-    session['id'] = user_id[0][0]
-    session['user'] = username
-    return render_template(
-      "register.html", 
-      user_id=session['id'],
-      username=session['user'],
-      session=session)
-  return render_template("login.html", alert="You must enter a username and a password.")
 
+  # Handle POST requests (which is currently the only allowed type of request).
+  # Clients get to this route from login.html.
+  if request.method == "POST":
+    username = request.form.get('register_user_name')
+    password = request.form.get('register_password')
+
+    # Check that client entered both username and password.
+    if username and password:
+
+      # Check to see if the username is already taken, if so return to login.html.
+      users = db.execute("SELECT * FROM users").fetchall()
+      for user in users:
+        if user.username == username:
+          return render_template("login.html", alert="Username is already taken.")
+
+      # Store username in database.
+      db.execute(
+        'INSERT INTO users (username, password) '
+        'VALUES (:username_key, :password_key)', 
+        {"username_key": username, "password_key": password})
+      db.commit()
+
+      # Once the user successfully registers an account then the username that was
+      # retrieved from the <form> on the register.html page is assigned to the 
+      # session variable, but the user ID is unknown since it is only created by 
+      # the database after the INSERT query. This SELECT query tries to find it. 
+      # Afterwards, once the id is known then it is assigned to the session
+      # variable.
+      user_id = db.execute(
+        'SELECT id FROM users WHERE username=:username',
+        {"username": username}).fetchall()
+      session['id'] = user_id[0][0]
+      session['user'] = username
+
+      # Send the client to register.html to let them know that they have 
+      # successfully registered.
+      return render_template(
+        "register.html", 
+        username=session['user'])
+
+    # Send client to login page if username and/or password field is blank.    
+    return render_template("login.html", alert="You must enter a username and a password.")
+
+# ==================== Handle BOOK route ====================
 @app.route("/book/<int:book_id>", methods=["GET", "POST"])
 def book(book_id):
   ratings_avg = 0
@@ -187,6 +219,8 @@ def book(book_id):
   user_review_exists = False
   write_review = request.form.get('write_review')
   error = ''
+
+  # Check to make sure that a book_id value was entered in the URL
   if book_id:
 
     # Get information on the book
@@ -214,11 +248,12 @@ def book(book_id):
       ratings_avg = ratings_sum / ratings_count
 
     # Get Goodreads data via the Goodreads API
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": specific_book[0].isbn})
-    res_json = res.json()
-    res_json_avg = res_json['books'][0]['average_rating']
-    res_json_count = res_json['books'][0]['work_reviews_count']
+    goodreads_response = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": specific_book[0].isbn})
+    goodreads_response_json = goodreads_response.json()
+    goodreads_response_json_avg = goodreads_response_json['books'][0]['average_rating']
+    goodreads_response_json_count = goodreads_response_json['books'][0]['work_reviews_count']
 
+    # Handle POST requests
     if request.method == "POST":
 
       # Check to see if user has already reviewed a specific book
@@ -269,20 +304,19 @@ def book(book_id):
 
       # Return an error message if the user has already submitted a review
       elif user_review_exists == True:
-        error = 'Cannot submit more than 1 review.'
+        error = 'Users may only submit 1 review per book.'
 
   # Render book.html after a GET or POST request
   return render_template(
     "book.html", 
-    ratings_avg=ratings_avg,
     book_id=book_id, 
     error=error,
-    res=res,
-    res_json=res_json,
-    res_json_avg=res_json_avg,
-    res_json_count=res_json_count,
+    goodreads_response_json_avg=goodreads_response_json_avg,
+    goodreads_response_json_count=goodreads_response_json_count,
+    ratings_avg=ratings_avg,
     specific_book=specific_book,
-    user_reviews=user_reviews)
+    user_reviews=user_reviews,
+    user=g.user)
 
 @app.route("/api/<string:isbn>")
 def api(isbn):
