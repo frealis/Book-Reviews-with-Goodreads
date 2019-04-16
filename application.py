@@ -39,26 +39,40 @@ def before_request():
     g.id = session['id']
     g.user = session['user']
 
+# Handle index "/" route
 @app.route("/", methods=["GET", "POST"])
 def index():
   if g.id and g.user:
     alert=''
-    # search_message=''
     search_results_list = []
     search_results_message = ''
     search_term = ''
+
+    # Handle POST requests
     if request.method == "POST":
 
       # This is a sort of hack using the *.get() method to get data that is not
       # normally returned by a standard POST request - normally this would 
-      # probably be accomplished with an AJAX request.
+      # probably be accomplished with an AJAX request instead.
       # https://stackoverflow.com/questions/32022568/get-value-of-a-form-input-by-id-python-flask
       results_limit = request.form.get("results_limit", "")
       search_term = request.form.get('search_bar')
-      if search_term:
-        if results_limit != 42: # 42 was arbitrarily chosen to represent all
 
-          # Convert the user's search input and database results all to lowercase
+      # Check if a search term was submitted by client
+      if search_term:
+
+        # Show all search results (42 was arbitrarily chosen to represent 'all'),
+        # and convert everything to lowercase to simplify matches
+        if results_limit == 42:
+          search_results = db.execute(
+          'SELECT * FROM books '
+          'WHERE LOWER(title) LIKE LOWER(:search_term) '
+          'OR LOWER(author) LIKE LOWER(:search_term) '
+          'OR LOWER(isbn) LIKE LOWER(:search_term) ',
+          {"search_term": '%' + search_term + '%'})
+
+        # Limit search results to a value selected by the client
+        else:
           search_results = db.execute(
             'SELECT * FROM books '
             'WHERE LOWER(title) LIKE LOWER(:search_term) '
@@ -67,24 +81,16 @@ def index():
             'LIMIT :results_limit', 
             {"search_term": '%' + search_term + '%',
             "results_limit": results_limit}) 
-        else:
-          search_results = db.execute(
-            'SELECT * FROM books '
-            'WHERE LOWER(title) LIKE LOWER(:search_term) '
-            'OR LOWER(author) LIKE LOWER(:search_term) '
-            'OR LOWER(isbn) LIKE LOWER(:search_term) ',
-            {"search_term": '%' + search_term + '%'})
 
         # Add the search results to search_results_list[] and return it to 
-        # index.html, or set error message if there are no search matches
+        # index.html, or create alert message if there are no search matches
         for search_result in search_results:
           search_results_list.append(search_result)
         if search_results_list == []:
           alert = "There were no search results."
-        # search_message = 'Search results for '
         search_results_message=Template('Search results for "$search_term": ').substitute(search_term=search_term)
       
-      # Set error message if client submits a search with no search term
+      # Create alert message if client submits a search with no search term
       else:
         alert="Must enter a search term."
     
@@ -97,10 +103,14 @@ def index():
       alert=alert,
       id=g.id,
       user=g.user,)
+
+  # Send client to login.html if there is no active session
   return render_template("login.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
+  # Remove active session if it exists
   session.pop('user', None)
   session.pop('id', None)
   if request.method == "POST":
@@ -109,6 +119,7 @@ def login():
     password = request.form.get('password')
     username = request.form.get('user_name')
     if username and password:
+
       # The db.execute method returns ResultProxy, which is a cursor/pointer. To 
       # retrieve the results you have to iterate over ResultProxy using a FOR loop, 
       # *.fetchall(), *.first(), or something similar.
