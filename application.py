@@ -49,8 +49,9 @@ def index():
       matches = []
       no_results = ''
       if search_term:
-      # Convert the user's search input and database results all to lowercase
+        # 42 was arbitrarily chosen to represent all, or infinity
         if results_limit != 42:
+          # Convert the user's search input and database results all to lowercase
           search_results = db.execute(
             'SELECT * FROM books '
             'WHERE LOWER(title) LIKE LOWER(:search_term) '
@@ -162,8 +163,8 @@ def register():
       session=session)
   return render_template("login.html", alert="You must enter a username and a password.")
 
-@app.route("/book/<int:id>", methods=["GET", "POST"])
-def book(id):
+@app.route("/book/<int:book_id>", methods=["GET", "POST"])
+def book(book_id):
   avg_rating = 0
   number_of_ratings = 0
   rating = request.form.get('rating')
@@ -171,12 +172,12 @@ def book(id):
   user_review_exists = False
   write_review = request.form.get('write_review')
   error = 'Cannot submit more than 1 review.'
-  if id:
+  if book_id:
     # Get information on the book
     specific_book = db.execute(
       'SELECT * FROM books '
       'WHERE id=:id',
-      {"id": id}).fetchall()
+      {"id": book_id}).fetchall()
     # Get user & review data 
     user_reviews = db.execute(
       'SELECT r.user_id, r.book_id, r.rating, r.review, '
@@ -184,7 +185,7 @@ def book(id):
       'FROM reviews as r '
       'JOIN users u ON u.id = r.user_id '
       'WHERE book_id=:id',
-      {"id": id}).fetchall()
+      {"id": book_id}).fetchall()
     # Get the average rating
     for user_rating in user_reviews:
       total_rating = total_rating + user_rating.rating
@@ -212,7 +213,7 @@ def book(id):
           # to a user's current, active session. The book_id_key value comes from 
           # the argument that gets passed to the book(id) function.
           "user_id_key": g.id, 
-          "book_id_key": id, 
+          "book_id_key": book_id, 
           "rating_key": rating,
           "write_review_key": write_review
         })
@@ -222,7 +223,7 @@ def book(id):
       "book.html", 
       avg_rating=avg_rating,
       error=error,
-      id=id,
+      book_id=book_id,
       res=res,
       res_json_avg=res_json_avg,
       res_json_count=res_json_count,
@@ -237,12 +238,12 @@ def book(id):
       'FROM reviews as r '
       'JOIN users u ON u.id = r.user_id '
       'WHERE book_id=:id',
-      {"id": id}).fetchall()
+      {"id": book_id}).fetchall()
     # Return book.html upon a GET request
     return render_template(
       "book.html", 
       avg_rating=avg_rating,
-      id=id, 
+      book_id=book_id, 
       res=res,
       res_json=res_json,
       res_json_avg=res_json_avg,
