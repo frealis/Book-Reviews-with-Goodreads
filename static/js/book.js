@@ -15,13 +15,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Determine whether to show the search results <div>
-  let search_results_message = document.querySelector('#search-results-message');
-  if (search_results_message.innerHTML !== '') {
-    console.log('not empty');
-    document.querySelector('#search-results').style.visibility='visible';
-  } else {
-    document.querySelector('#search-results').style.visibility='hidden';
-  };
-
 });

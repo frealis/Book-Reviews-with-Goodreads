@@ -64,6 +64,32 @@
 
   ... https://www.postgresql.org/docs/9.2/sql-copy.html
 
+- Postgres tables sometimes lock up, preventing functions like UPDATE or ALTER TABLE. View possible locks on tables and their associated pid's in Postgres by running the following:
+
+  db=> SELECT * FROM pg_locks WHERE relation=(SELECT oid FROM pg_class WHERE relname='table_name_goes_here');
+
+  ... to get information on the actual queries that may be locking up the Postgres database, run this:
+
+  db=>  SELECT pid, state, usename, query, query_start 
+        FROM pg_stat_activity 
+        WHERE pid in (
+          SELECT pid FROM pg_locks l 
+          JOIN pg_class t ON l.relation = t.oid 
+          AND t.relkind = 'r' 
+          WHERE t.relname = 'search_hit'
+        );
+
+  ... to kill any hanging queries there are two options:
+
+  db=> SELECT pg_cancel_backend(pid);       // less forceful
+  db=> SELECT pg_terminate_backend(pid);    // more forceful
+
+  ... more resources on Postgres locks: 
+  
+    1. https://wiki.postgresql.org/wiki/Lock_Monitoring
+    2. https://jaketrent.com/post/find-kill-locks-postgres/
+    3. https://www.citusdata.com/blog/2018/02/15/when-postgresql-blocks/
+
 # Search
 
 - The search function will search for matches or partial isbn, book title, or  author matches within the Heroku Postgres database and return the results. Clients can also limit the number of books that are returned from search results.
