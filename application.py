@@ -248,7 +248,7 @@ def book(id):
     # Return an error message if the user has already submitted a review
     elif request.method == "POST" and user_review_exists == True:
       return render_template(
-      "specificbook.html", 
+      "book.html", 
       avg_rating=avg_rating,
       error=error,
       id=id,
@@ -267,9 +267,9 @@ def book(id):
       'JOIN users u ON u.id = r.user_id '
       'WHERE book_id=:id',
       {"id": id}).fetchall()
-    # Return specificbook.html upon a GET request
+    # Return book.html upon a GET request
     return render_template(
-      "specificbook.html", 
+      "book.html", 
       avg_rating=avg_rating,
       id=id, 
       res=res,
