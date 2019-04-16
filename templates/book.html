@@ -24,8 +24,8 @@
           <input type="text" class="form-control" name="search_bar" placeholder="Search books" aria-label="Search books">
           <input value="5" type="hidden" id="results_limit" name="results_limit">
           <div class="input-group-append">
-            <button class="btn btn-outline-primary" type="submit"><span class="fas fa-search"></span></button>
-            <button class="btn btn-outline-primary dropdown-toggle" id="dropdown-selection" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show 5 Results</button>
+            <button class="btn" type="submit"><span class="fas fa-search"></span></button>
+            <button class="btn dropdown-toggle" id="dropdown-selection" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show 5 Results</button>
             <div class="dropdown-menu">
               <a class="dropdown-item" data-results="5" id="show-5-results" href="#">Show 5 Results</a>
               <a class="dropdown-item" data-results="10" id="show-10-results" href="#">Show 10 Results</a>
@@ -46,53 +46,63 @@
       <a href="{{ url_for('logout')}}">Logout</a>
     </div>
 
-    <!-- Search Results -->
-    <div class="col-md-8 mt-3 mt-md-0" id="search-results">
+    <!-- Book Reviews -->
+    <div class="col-md-8 mt-3 mt-md-0" id="book-reviews">
+      <p>
+        <h5>Information:</h5>
+        Title: {{ specific_book[0].title }}<br>
+        Author: {{ specific_book[0].author }}<br>
+        Year: {{ specific_book[0].year }}<br>
+        ISBN: {{ specific_book[0].isbn }}
+      </p>
 
-      <h4>Information:</h4>
-      Title: {{ specific_book[0].title }}<br>
-      Author: {{ specific_book[0].author }}<br>
-      ISBN: {{ specific_book[0].isbn }}
-    </p>
-    <p>
-      <h4>Reviews & average ratings submitted to this website:</h4>
-      <ul>
-      {% for user_review in user_reviews: %}
-        <li>{{ user_review.username }}: {{ user_review.review }}</li>
-      {% endfor %}
-      </ul>
-    </p>
-    <p>
-      Average rating: {{ ratings_avg }} / 5.0
-    </p>
-    <p>
-      <h4>Average rating & number of ratings from Goodreads:</h4>
-      Average rating: {{ goodreads_response_json_avg }}<br>
-      Number of reviews: {{ goodreads_response_json_count }}
-    </p>
-    <p>
-      <h4>Write a review & rate this book:</h4>
-      <form action="{{ url_for('book', book_id=book_id) }}" method="post">
-        <textarea type="text" name="write_review" rows="4" cols="50"></textarea>
-        <br>
-        <select name="rating">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select><br><br>
-        <button type="submit">Submit</button>
-      </form>
-      <br>{{ error }}
-    </p>
+      <p>
+        <h5>Reviews:</h5>
+        <ul>
+        {% for user_review in user_reviews: %}
+          <li>{{ user_review.username }}: {{ user_review.review }}</li>
+        {% endfor %}
+        </ul>
+      </p>
 
+      <p>
+        Average rating: {{ ratings_avg }} / 5.0
+      </p>
 
+      <p>
+        <h5>Goodreads reviews:</h5>
+        Average rating: {{ goodreads_response_json_avg }}<br>
+        Number of reviews: {{ goodreads_response_json_count }}
+      </p>
 
+      <p>
+        <h5>Write a review & rate this book:</h5>
+        <form action="{{ url_for('book', book_id=book_id) }}" method="post">
+          <div>
+            <textarea style="width: 100%" type="text" name="write_review" rows="4"></textarea>
+          </div>
 
+          <div>
+            <select name="rating">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
 
+          <div class="center-div-wrapper">
+            <span>{{ error }}</span>
+          </div>
 
+          <div class="center-div-wrapper">
+            <button class="btn btn-submit" type="submit">Submit</button>
+          </div>
+        </form>
+      </p>
     </div>
+
   </div>
 
 </div>

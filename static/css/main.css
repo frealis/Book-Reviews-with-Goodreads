@@ -22,18 +22,22 @@ html {
 
 .btn {
   color: white;
-  border: none;
+  background-color: #396791;
 }
 
-/* .btn:active {
-  color: #396791;
-  background-color: white;
-  border: 1px solid white;
-} */
+.btn-submit {
+  border: 2px solid #85cbe8;
+}
 
 .btn:hover {
   color: #396791;
   background-color: #85cbe8;
+}
+
+.center-div-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: max-content;
 }
 
 .color-85cbe8 {
@@ -52,20 +56,20 @@ html {
   color: #e2d0c5;
 }
 
-.container {
-  /* background-image: url('../img/book-review-background-01.svg'); */
-  /* background-color:  #e2d0c5;
-  border: 3px solid #cea861;
-  height: 100%; */
-}
-
-.main {
-  /* padding: 0px; */
+.mb2 {
+  margin-bottom: 10x;
 }
 
 .row {
   margin-left: 1px;
   margin-right: 1px;
+}
+
+#book-reviews {
+  background-color: #396791;
+  border: 2px solid #85cbe8;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 #header-background {
@@ -94,7 +98,6 @@ html {
 #header-logo {
   display: block;
   margin: 10px auto;
-  /* width: 50%; */
 }
 
 #navbar {
@@ -103,7 +106,6 @@ html {
   border: 2px solid #85cbe8;
   border-radius: 5px;
   margin-top: 10px;
-  /* background-image: url('book-review-background-01.svg'); */
 }
 
 #search-results {
