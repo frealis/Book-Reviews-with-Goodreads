@@ -11,7 +11,7 @@ body {
   background-color: #e2d0c5;
   /* background-color: white; */
   color: white;
-  height: 100%;
+  /* height: 100%; */
 }
 
 html {
@@ -73,6 +73,35 @@ html {
   padding: 10px;
 }
 
+#footer-background {
+  background-image: url('../img/book-review-background-01.svg');
+  border: 3px solid #85cbe8;
+  border-radius: 2px;
+  height: 90px;
+  padding: 10px;
+  width: 100%;
+}
+
+#footer-background-wrapper {
+  border: 3px solid #396791;
+  border-radius: 5px;
+  height: 96px;
+  width: 100%;
+}
+
+#footer-text {
+  background-color: #396791;
+  border: 2px solid #85cbe8;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+}
+
+#footer-text-wrapper {
+  margin: 20px 10px 0 auto;
+  width: max-content;
+}
+
 #header-background {
   background-image: url('../img/book-review-background-01.svg');
   /* border: 3px solid #cea861; */
@@ -81,7 +110,6 @@ html {
   border: 3px solid #85cbe8;
   border-radius: 2px;
   height: 232px;
-  /* margin-top: 10px; */
   width: 100%;
 }
 
