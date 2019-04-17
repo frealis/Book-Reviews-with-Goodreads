@@ -52,8 +52,10 @@ def index():
     if request.method == "POST":
 
       # This is a sort of hack using the *.get() method to get data that is not
-      # normally returned by a standard POST request - normally this would 
-      # probably be accomplished with an AJAX request instead.
+      # normally returned by a standard POST request - it grabs the value of the
+      # "value" attribute in a hidden <div> HTML element somewhere from whichever
+      # page routed the client to this spot via a POST request. An AJAX request 
+      # would probably be easier.
       # https://stackoverflow.com/questions/32022568/get-value-of-a-form-input-by-id-python-flask
       results_limit = request.form.get("results_limit", "")
       search_term = request.form.get('search_bar')
@@ -215,7 +217,7 @@ def book(book_id):
   ratings_avg = 0
   ratings_count = 0
   ratings_sum = 0
-  rating = request.form.get('rating')
+  rating = request.form.get('rating') # Convert this to star rating
   user_review_exists = False
   write_review = request.form.get('write_review')
   error = ''

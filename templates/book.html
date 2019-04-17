@@ -39,8 +39,9 @@
     </nav>
   </form>
 
-  <!-- User Panel/Logout -->
   <div class="row mt-3">
+
+    <!-- User Panel/Logout -->
     <div class="col-md-3 mr-auto" id="user-panel">
       <h5>Welcome, {{ user }}!</h5>
       <a href="{{ url_for('logout')}}">Logout</a>
@@ -75,6 +76,7 @@
         Number of reviews: {{ goodreads_response_json_count }}
       </p>
 
+      <!-- User submitted reviews -->
       <p>
         <h5>Write a review & rate this book:</h5>
         <form action="{{ url_for('book', book_id=book_id) }}" method="post">
@@ -82,17 +84,25 @@
             <textarea style="width: 100%" type="text" name="write_review" rows="4"></textarea>
           </div>
 
-          <div>
-            <select name="rating">
+          <div class="center-div-wrapper">
+            <!-- <select name="rating">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-            </select>
+            </select> -->
+
+            <input value="5" type="hidden" id="rating-selection" name="rating-selection">
+
+            <span class="far fa-star rating-stars" id="star-1" data-rating="1"></span>
+            <span class="far fa-star rating-stars" id="star-2" data-rating="2"></span>
+            <span class="far fa-star rating-stars" id="star-3" data-rating="3"></span>
+            <span class="far fa-star rating-stars" id="star-4" data-rating="4"></span>
+            <span class="far fa-star rating-stars" id="star-5" data-rating="5"> </span>            
           </div>
 
-          <div class="center-div-wrapper">
+          <div class="center-div-wrapper my-3">
             <span>{{ error }}</span>
           </div>
 

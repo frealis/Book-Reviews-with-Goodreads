@@ -23,6 +23,7 @@ html {
 .btn {
   color: white;
   background-color: #396791;
+  border: none;
 }
 
 .btn-submit {
