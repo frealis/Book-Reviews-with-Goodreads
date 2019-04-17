@@ -1,6 +1,6 @@
 import json, os, requests
 from dotenv import load_dotenv, find_dotenv
-from flask import Flask, g, redirect, render_template, request, session, url_for
+from flask import abort, Flask, g, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -217,7 +217,7 @@ def book(book_id):
   ratings_avg = 0
   ratings_count = 0
   ratings_sum = 0
-  rating = request.form.get('rating') # Convert this to star rating
+  rating = request.form.get('rating-selection')
   user_review_exists = False
   write_review = request.form.get('write_review')
   error = ''
@@ -316,40 +316,42 @@ def book(book_id):
     goodreads_response_json_avg=goodreads_response_json_avg,
     goodreads_response_json_count=goodreads_response_json_count,
     ratings_avg=ratings_avg,
+    ratings_count=ratings_count,
     specific_book=specific_book,
     user_reviews=user_reviews,
     user=g.user)
 
+# ==================== Handle API requests ====================
 @app.route("/api/<string:isbn>")
 def api(isbn):
-  api_book = db.execute(
-    'SELECT * FROM books b WHERE b.isbn=:isbn',
-    {"isbn": isbn}).first()
-  # Since db.execute(...).fetchall() returns a list of tuples, but we need to 
-  # return the book's data in json format, we can manually put everyting in json
-  # format by creating a dictionary of key:value pairs
-  api_json_format = {}
-  api_isbn = api_book[1]
-  api_title = api_book[2]
-  api_author = api_book[3]
-  api_year = api_book[4]
-  api_json_format["isbn"] = api_isbn
-  api_json_format["title"] = api_title
-  api_json_format["author"] = api_author
-  api_json_format["year"] = api_year
-  # Get Goodreads data and add it to api_json_format{}
+
+  # Search for the book by ISBN number and return 404 if not found. The
+  # db.execute() method returns a ResultProxy, aka 'api_book', which is a pointer.
+  try:
+    api_book = db.execute(
+      'SELECT * FROM books b '
+      'WHERE b.isbn=:isbn', 
+      {"isbn": isbn}).fetchall()[0] # *.first() returns None, not an exception
+  except:
+    return abort(404)
+
+  # Since db.execute(...).fetchall() returns a list of tuples (although in this
+  # case we are only extracting the first tuple, [0], from the list), but we need 
+  # to return the book's data in json format, we can manually put everyting in 
+  # json format by creating a dictionary of key:value pairs.
+  api_dict = {}
+  api_dict["isbn"] = api_book[1]
+  api_dict["title"] = api_book[2]
+  api_dict["author"] = api_book[3]
+  api_dict["year"] = api_book[4]
+
+  # Get Goodreads data and add it to api_dict{}
   res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_API_KEY, "isbns": isbn})
   res_json = res.json()
   res_json_avg = res_json['books'][0]['average_rating']
   res_json_count = res_json['books'][0]['work_reviews_count']
-  api_json_format['average_score'] = res_json_avg
-  api_json_format['review_count'] = res_json_count
-  return render_template(
-    "api.html",
-    api_author=api_author,
-    api_book=api_book,
-    api_isbn=api_isbn,
-    api_json_format=api_json_format,
-    api_title=api_title,
-    api_year=api_year,
-    isbn=isbn)
+  api_dict['average_score'] = res_json_avg
+  api_dict['review_count'] = res_json_count
+
+  # Use Flask's jsonify() function to convert dictionaries into JSON objects
+  return jsonify(api_dict)

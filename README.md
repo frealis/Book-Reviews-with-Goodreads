@@ -5,7 +5,7 @@
 
 - https://docs.cs50.net/web/2018/x/projects/1/project1.html
 
-# Setup & Configuration
+# Development Setup & Configuration
 - Flask needs to know which file is used to start the server/run the application, and additionally the database URL and Goodreads API key need to be set. These can be set using environment variables. Using Powershell you can set environment variables manually from the command line:
 
   $ $env:DATABASE_URL = "database URL"
@@ -96,13 +96,23 @@
 
 # Book Information Pages
 
-- Each book has an assigned 'id' value, and when a client selects an individual book from the search results they are directed the specific book's information page via /book/<id>. 
+- Each book has an assigned 'id' value, and when a client selects an individual book from the search results they are directed the specific book's information page via /book/<id>. The page displays the book's reviews and ratings that have been submitted to the site, as well as the book's average rating and number of ratings on goodreads.com which is accessed through a Goodreads API. 
+
+# API Access
+
+- If a client visits the /api/<isbn> route, the website returns a JSON response containing the book's title, author, publication year, ISBN, Goodreads reviews, and Goodreads average rating.
+
+# Production
+
+- This app is a project for CS50 - Web Development with JavaScript and Python, and hasn't been pushed to production. However, in the event that it does get deployed, it would probably be a good idea to hash the passwords and also check out these resources:
+
+  1. http://flask.pocoo.org/docs/1.0/tutorial/deploy/
+  2. http://flask.pocoo.org/docs/1.0/config/
 
 
+# Notes
 
-
-
-- Another note: it's a good idea to add *.pyc to the .gitignore file, and additionally you can ask git to remove any *.pyc files that happen to already be tracked by git by running the following from the command line:
+- It's a good idea to add *.pyc to the .gitignore file, and additionally you can ask git to remove any *.pyc files that happen to already be tracked by git by running the following from the command line:
 
   $ git rm --cached *.pyc
 

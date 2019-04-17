@@ -67,12 +67,13 @@
       </p>
 
       <p>
-        Average rating: {{ ratings_avg }} / 5.0
+        Average rating: {{ ratings_avg }} / 5.0<br>
+        Number of reviews: {{ ratings_count }}
       </p>
 
       <p>
         <h5>Goodreads reviews:</h5>
-        Average rating: {{ goodreads_response_json_avg }}<br>
+        Average rating: {{ goodreads_response_json_avg }} / 5.0<br>
         Number of reviews: {{ goodreads_response_json_count }}
       </p>
 
@@ -85,16 +86,7 @@
           </div>
 
           <div class="center-div-wrapper">
-            <!-- <select name="rating">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select> -->
-
             <input value="5" type="hidden" id="rating-selection" name="rating-selection">
-
             <span class="far fa-star rating-stars" id="star-1" data-rating="1"></span>
             <span class="far fa-star rating-stars" id="star-2" data-rating="2"></span>
             <span class="far fa-star rating-stars" id="star-3" data-rating="3"></span>
@@ -116,16 +108,4 @@
   </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock %}

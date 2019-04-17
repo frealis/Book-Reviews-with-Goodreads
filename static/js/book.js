@@ -39,9 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
       };
 
-      // Toggle the selected Font Awesome star icon between the 'far' (font 
-      // awesome regular, aka 'outline') or the 'fas' (font awesome solid) class.
-      
+      // Toggle the selected Font Awesome star icons between the 'far' (font 
+      // awesome regular, aka 'outline') or the 'fas' (font awesome solid) class
+      // to represent current star rating.
+      // https://stackoverflow.com/questions/6791112/how-to-filter-elements-returned-by-queryselectorall
       let stars_less_than = Array.from(document.querySelectorAll('.rating-stars')).filter(star => star.dataset.rating < this.dataset.rating)
       let stars_more_than = Array.from(document.querySelectorAll('.rating-stars')).filter(star => star.dataset.rating > this.dataset.rating)
 
@@ -58,20 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
           stars_more_than[k].classList.add('far')
         };
       };
-
-      // Toggle un-selected Font Awesome star icons with a value < the selected
-      // star icon to represent the total rating, ex. if the 3rd star is selected,
-      // then toggle stars 1 and 2 to represent a total of 3 out of 5 selected
-      // stars.
-
-      // https://stackoverflow.com/questions/6791112/how-to-filter-elements-returned-by-queryselectorall
-      // let stars_less_than = Array.from(document.querySelectorAll('.rating-stars')).filter(star => star.dataset.rating < this.dataset.rating)
-      // for (k = 0; k < stars_less_than.length; k++) {
-      //   console.log('stars_less_than[k]: ', stars_less_than[k]);
-      //   stars_less_than[k].classList.remove('far');
-      //   stars_less_than[k].classList.add('fas')
-      // };
-      
     });
   };
 });
