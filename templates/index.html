@@ -6,7 +6,7 @@
   {% block title %} <title>CS50 - Book Reviews w/Goodreads - Index</title> {% endblock %}
 
   <!-- Body -->
-{% block body %}
+  {% block body %}
 
   <!-- Header & Logo -->
   {% include 'header_and_logo.html' %}
@@ -14,12 +14,13 @@
   <!-- Search Bar -->
   {% include 'search_bar.html' %}
 
-  <!-- User Panel/Logout -->
+  <!-- The Modal -->
+  {% include 'modal.html' %}
+
   <div class="row">
-    <div class="col-md-3 mr-auto" id="user-panel">
-      <h5>Welcome, {{ user }}!</h5>
-      <a href="{{ url_for('logout')}}">Logout</a>
-    </div>
+
+    <!-- User Panel -->
+    {% include 'user_panel.html' %}
 
     <!-- Search Results -->
     <div class="col-md-8 mt-3 mt-md-0" id="search-results">

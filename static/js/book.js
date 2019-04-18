@@ -92,4 +92,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add the footer to the DOM
   document.querySelector('#footer').appendChild(fbw);
 
+  // Access API Modal
+  // https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal2
+
+  // When the user clicks the 'Access Api' link, open the modal 
+  var access_api_link = document.querySelector("#access_api");
+  access_api_link.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  var span = document.getElementsByClassName("close")[0];
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  var modal = document.querySelector('#access_api_modal');
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    };
+  }
+
 });

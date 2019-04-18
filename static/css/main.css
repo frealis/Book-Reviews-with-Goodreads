@@ -113,6 +113,65 @@ html {
   padding: 10px;
 }
 
+#login {
+  margin-left: auto;
+}
+
+#navbar {
+  color: white;
+  background-color: #396791;
+  border: 2px solid #85cbe8;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+#search-results {
+  background-color: #396791;
+  border: 2px solid #85cbe8;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#user-panel {
+  background-color: #396791;
+  border: 2px solid #85cbe8;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+
+
+/* ========================= HEADER ========================= */
+#header-background {
+  background-image: url('../img/book-review-background-01.svg');
+  /* border: 3px solid #cea861; */
+  /* border: 3px solid #603813; */
+  /* border: 3px solid #396791; */
+  border: 3px solid #85cbe8;
+  border-radius: 2px;
+  height: 232px;
+  width: 100%;
+}
+
+#header-background-wrapper {
+  /* border: 3px solid #cea861; */
+  /* border: 3px solid #603813; */
+  border: 3px solid #396791;
+  /* border: 3px solid #85cbe8; */
+  border-radius: 5px;
+  height: 238px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+#header-logo {
+  display: block;
+  margin: 10px auto;
+}
+
+
+
+/* ========================= FOOTER ========================= */
 #footer-background {
   background-image: url('../img/book-review-background-01.svg');
   border: 3px solid #85cbe8;
@@ -142,55 +201,79 @@ html {
   width: max-content;
 }
 
-#header-background {
-  background-image: url('../img/book-review-background-01.svg');
-  /* border: 3px solid #cea861; */
-  /* border: 3px solid #603813; */
-  /* border: 3px solid #396791; */
-  border: 3px solid #85cbe8;
-  border-radius: 2px;
-  height: 232px;
-  width: 100%;
+
+
+/* ========================= MODAL ========================= */
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal2 */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#header-background-wrapper {
-  /* border: 3px solid #cea861; */
-  /* border: 3px solid #603813; */
-  border: 3px solid #396791;
-  /* border: 3px solid #85cbe8; */
-  border-radius: 5px;
-  height: 238px;
-  margin-top: 10px;
-  width: 100%;
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: white;
+  margin: auto;
+  padding: 0;
+  border: 2px solid #85cbe8;
+  width: 60%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,100,0.2),0 6px 20px 0 rgba(0,0,100,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
 }
 
-#header-logo {
-  display: block;
-  margin: 10px auto;
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
 }
 
-#login {
-  margin-left: auto;
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
 }
 
-#navbar {
+/* The Close Button */
+.close {
   color: white;
-  background-color: #396791;
-  border: 2px solid #85cbe8;
-  border-radius: 5px;
-  margin: 10px 0;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-#search-results {
-  background-color: #396791;
-  border: 2px solid #85cbe8;
-  border-radius: 5px;
-  padding: 10px;
+.close:hover,
+.close:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-#user-panel {
+.modal-header {
+  padding: 2px 16px;
   background-color: #396791;
-  border: 2px solid #85cbe8;
-  border-radius: 5px;
-  padding: 10px;
+  color: white;
+}
+
+.modal-body {
+  color: #396791;
+  padding: 5px 16px;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #396791;
+  color: white;
 }

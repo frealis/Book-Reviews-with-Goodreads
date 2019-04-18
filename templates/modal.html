@@ -1,0 +1,28 @@
+
+<!-- Access API Modal -->
+<!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal2 -->
+<div id="access_api_modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Access API Instructions</h3>
+      <span class="close">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p>In order to use the API visit this site's URL /api/&lt;isbn&gt;, where &lt;isbn&gt; it is ISBN number of the book that you are requesting information on (be sure to enter the ISBN number without the angle brackets &lt;&gt;).</p>
+      <p>The response is a JSON object. For example, sending a GET request to 127.0.0.1:5000/api/0380795272 would return the following:</p>
+      <p>
+        {<br>
+          "author": "Raymond E. Feist", <br>
+          "average_score": "3.84", <br>
+          "isbn": "0380795272", <br>
+          "review_count": 19668, <br>
+          "title": "Krondor: The Betrayal", <br>
+          "year": "1998" <br>
+        }
+      </p>
+    </div>
+    <div class="modal-footer">
+      &nbsp;
+    </div>
+  </div>
+</div>
