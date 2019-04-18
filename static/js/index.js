@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (search_results_message.innerHTML !== '') {
     document.querySelector('#search-results').style.visibility='visible';
   } else {
-    // document.querySelector('#search-results').style.visibility='hidden';
+    document.querySelector('#search-results').style.visibility='hidden';
   };
 
   // Generate the HTML footer elements

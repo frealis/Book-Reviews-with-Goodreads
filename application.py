@@ -206,7 +206,7 @@ def register():
       # successfully registered.
       return render_template(
         "register.html", 
-        username=session['user'])
+        user=session['user'])
 
     # Send client to login page if username and/or password field is blank.    
     return render_template("login.html", alert="You must enter a username and a password.")
