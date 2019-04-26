@@ -220,7 +220,7 @@ def book(book_id):
   rating = request.form.get('rating-selection')
   user_review_exists = False
   write_review = request.form.get('write_review')
-  error = ''
+  alert = ''
 
   # Check to make sure that a book_id value was entered in the URL
   if book_id:
@@ -258,63 +258,73 @@ def book(book_id):
     # Handle POST requests
     if request.method == "POST":
 
-      
+      # Ensure user submits both a rating and a review
+      # if rating != 0 and write_review != '':
+      if int(rating) != 0 and write_review != '':
 
-      # Check to see if user has already reviewed a specific book
-      for i in user_reviews:
-          if i.username == g.user:
-            user_review_exists = True
+        print('=== rating: ', rating)
+        print('=== write_review: ', write_review)
 
-      # Run an INSERT query to add a review if the user hasn't entered one yet
-      if user_review_exists == False:
-        db.execute(
-          'INSERT INTO reviews (user_id, book_id, rating, review) '
-          'VALUES (:user_id_key, :book_id_key, :rating_key, :write_review_key)',
-          {
+        # Check to see if user has already reviewed a specific book
+        for i in user_reviews:
+            if i.username == g.user:
+              user_review_exists = True
 
-            # The user_id_key value comes from the global 'id' variable that is 
-            # tied to a user's current, active session. The book_id_key value 
-            # comes from the argument that gets passed to the book(book_id) 
-            # function. The rating and review are taken from the HTML form.
-            "user_id_key": g.id, 
-            "book_id_key": book_id, 
-            "rating_key": rating,
-            "write_review_key": write_review
-          })
-        db.commit()
+        # Run an INSERT query to add a review if the user hasn't entered one yet
+        if user_review_exists == False:
+          db.execute(
+            'INSERT INTO reviews (user_id, book_id, rating, review) '
+            'VALUES (:user_id_key, :book_id_key, :rating_key, :write_review_key)',
+            {
 
-        # Get -updated- user ratings & reviews
-        user_reviews = db.execute(
-          'SELECT r.user_id, r.book_id, r.rating, r.review, '
-          'u.id, u.username '
-          'FROM reviews as r '
-          'JOIN users u ON u.id = r.user_id '
-          'WHERE book_id=:id',
-          {"id": book_id}).fetchall()
+              # The user_id_key value comes from the global 'id' variable that is 
+              # tied to a user's current, active session. The book_id_key value 
+              # comes from the argument that gets passed to the book(book_id) 
+              # function. The rating and review are taken from the HTML form.
+              "user_id_key": g.id, 
+              "book_id_key": book_id, 
+              "rating_key": rating,
+              "write_review_key": write_review
+            })
+          db.commit()
 
-        # Reset the ratings values so that they can be re-calculated & updated
-        ratings_avg = 0
-        ratings_count = 0
-        ratings_sum = 0
+          # Get -updated- user ratings & reviews
+          user_reviews = db.execute(
+            'SELECT r.user_id, r.book_id, r.rating, r.review, '
+            'u.id, u.username '
+            'FROM reviews as r '
+            'JOIN users u ON u.id = r.user_id '
+            'WHERE book_id=:id',
+            {"id": book_id}).fetchall()
 
-        # Get the -updated- average user rating
-        for user_rating in user_reviews:
-          ratings_sum = ratings_sum + user_rating.rating
-          ratings_count += 1
-        if ratings_count == 0:
+          # Reset the ratings values so that they can be re-calculated & updated
           ratings_avg = 0
-        else:
-          ratings_avg = ratings_sum / ratings_count
+          ratings_count = 0
+          ratings_sum = 0
 
-      # Return an error message if the user has already submitted a review
-      elif user_review_exists == True:
-        error = 'Users may only submit 1 review per book.'
+          # Get the -updated- average user rating
+          for user_rating in user_reviews:
+            ratings_sum = ratings_sum + user_rating.rating
+            ratings_count += 1
+          if ratings_count == 0:
+            ratings_avg = 0
+          else:
+            ratings_avg = ratings_sum / ratings_count
+
+        # Return an error message if the user has already submitted a review
+        elif user_review_exists == True:
+          alert = 'Users may only submit 1 review per book.'
+
+      # Return an error message if either a review or rating is not submitted
+      else:
+        print('=== Both a review and a rating must be submitted. ===')
+        alert = 'Both a review and a rating must be submitted.'
 
   # Render book.html after a GET or POST request
   return render_template(
     "book.html", 
     book_id=book_id, 
-    error=error,
+    alert=alert,
     goodreads_response_json_avg=goodreads_response_json_avg,
     goodreads_response_json_count=goodreads_response_json_count,
     ratings_avg=ratings_avg,
