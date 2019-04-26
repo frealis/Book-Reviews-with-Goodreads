@@ -14,7 +14,7 @@
   <!-- Navbar/Login -->
   <nav class="navbar navbar-expand-md" id="navbar">
     <div id="login">
-      <form class="display-inline-block form-inline mt-2 mt-md-0" action="/login" method="post">
+      <form class="display-inline-block form-inline mt-2 mt-md-0 text-center-small" action="/login" method="post">
         <input class="form-control mr-sm-2 input" type="text" name="user_name" placeholder="Username" aria-label="Username" required>
         <input class="form-control mr-sm-2 input" type="password" name="password" placeholder="Password" aria-label="Password" required>
         <button class="btn" type="submit">Log In</button>
@@ -22,11 +22,11 @@
     </div>
   </nav>
 
-  <div class="text-center mb2 alert-div">
+  <div class="flex-container mb2">
     <span class="error-login">{{ alert }}</span>
   </div>
   
-  <div class="row">
+  <div class="row mb10">
 
     <!-- Introduction -->
     <div class="col-md-6 introduction" id="search-results">
@@ -39,7 +39,7 @@
     <!-- Create a new account -->
     <div class="col-md-6 create-an-account">
       <a id="create_an_account"></a>
-      <form class="form-register" action="/register" method="post">
+      <form class="form-register text-center" action="/register" method="post">
         <h1 class="h3 mb-3 color-396791">Create an account</h1>
 
         <label for="inputUserName" class="sr-only">Username</label>
@@ -53,7 +53,7 @@
         
         <p><span id="passwords_match"></span></p>
 
-        <button class="btn btn-lg btn-block register-button" type="submit">Register</button>
+        <button class="btn btn-lg btn-block btn-register" type="submit">Register</button>
       </form>
     </div>
   </div>

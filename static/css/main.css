@@ -21,14 +21,16 @@ html {
   scroll-behavior: smooth;
 }
 
-.alert-div {
-  display: flex;
-}
-
 .btn {
   color: white;
   background-color: #396791;
   border: none;
+}
+
+.btn-register {
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-submit {
@@ -72,12 +74,17 @@ html {
 .error-login {
   color: #396791;
   font-weight: bold;
+  margin-left: auto;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 767px) {
   .error-login {
-    margin-left: auto;
+    margin-right: auto;
   }
+}
+
+.flex-container {
+  display: flex;
 }
 
 .form-register {
@@ -94,7 +101,7 @@ html {
   padding: 40px;
 }
 
-.mb2 {
+.mb10 {
   margin-bottom: 10px;
 }
 
@@ -106,17 +113,19 @@ html {
   color: green;
 }
 
-.register-button {
-  max-width: 200px;
-}
-
 .row {
   margin-left: 1px;
   margin-right: 1px;
 }
 
-.test-center {
+.text-center {
   text-align: center;
+}
+
+@media (max-width: 767px) {
+  .text-center-small {
+    text-align: center;
+  }
 }
 
 #book-reviews {
