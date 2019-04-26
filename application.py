@@ -258,6 +258,8 @@ def book(book_id):
     # Handle POST requests
     if request.method == "POST":
 
+      
+
       # Check to see if user has already reviewed a specific book
       for i in user_reviews:
           if i.username == g.user:
