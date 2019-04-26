@@ -117,8 +117,8 @@ def login():
 
   # Handle POST requests
   if request.method == "POST":
-    error_blank = "Enter a username and a password >>"
-    error_wrong = "Invalid username or password >>"
+    error_blank = "Enter a username and a password"
+    error_wrong = "Invalid username or password"
     password = request.form.get('password')
     username = request.form.get('user_name')
 

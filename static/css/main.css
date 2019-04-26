@@ -21,6 +21,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.alert-div {
+  display: flex;
+}
+
 .btn {
   color: white;
   background-color: #396791;
@@ -65,13 +69,18 @@ html {
 .display-inline-block {
   display: inline-block;
 }
-
 .error-login {
-  color: white;
-  margin-right: 20px;
+  color: #396791;
+  font-weight: bold;
 }
 
-.form {
+@media (min-width: 768px) {
+  .error-login {
+    margin-left: auto;
+  }
+}
+
+.form-register {
   margin: auto;
   max-width: 300px;
 }
@@ -86,7 +95,7 @@ html {
 }
 
 .mb2 {
-  margin-bottom: 10x;
+  margin-bottom: 10px;
 }
 
 .passwords-dont-match {
@@ -106,6 +115,10 @@ html {
   margin-right: 1px;
 }
 
+.test-center {
+  text-align: center;
+}
+
 #book-reviews {
   background-color: #396791;
   border: 2px solid #85cbe8;
@@ -115,6 +128,12 @@ html {
 
 #login {
   margin-left: auto;
+}
+
+@media (max-width: 767px) {
+  #login {
+    margin-right: auto;
+  }
 }
 
 #navbar {
