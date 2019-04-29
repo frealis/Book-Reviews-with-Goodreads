@@ -50,6 +50,12 @@ html {
   }
 }
 
+.center-div-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: max-content;
+}
+
 .color-85cbe8 {
   color: #85cbe8;
 }
