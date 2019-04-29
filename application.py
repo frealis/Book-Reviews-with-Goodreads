@@ -317,7 +317,7 @@ def book(book_id):
 
       # Return an error message if either a review or rating is not submitted
       else:
-        alert = 'Both a review and a rating must be submitted. Test extra characters'
+        alert = 'Both a review and a rating must be submitted.'
 
   # Render book.html after a GET or POST request
   return render_template(
