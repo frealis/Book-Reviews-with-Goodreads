@@ -47,7 +47,7 @@
 
     ... to generate a random key from the command line:
 
-    $ python -c 'import os; print(os.urandom(16).decode("latin-1"))'
+    $ python -c 'import os; print(os.urandom(16))'
 
   3. Flask has a special function called before_request() that runs before each request, including GET and POST requests. This web application uses it to assign session['user'] and session['id'] to g.user and g.id, respectively. The 'g' variable is a special Flask variable that persists between client requests, so it essentially acts like a global variable. The web application uses it to represent a client's active session.
 
