@@ -1,9 +1,25 @@
-a {
+.color-bank-1 {
+  color: #2f1f25;
+  color: #252717;
+  color: #15353c;
+  color: #b39e42;
+  color: #dedd98;
+}
+
+.color-bank-2 {
   color: #85cbe8;
+  color: #396791;
+  color: #e2d0c5;
+  color: #cea861;
+  color: white;
+}
+
+a {
+  color: #15353c;
 }
 
 a:hover {
-  color: white;
+  color: tertiary-color;
 }
 
 @media (max-width: 768px) {
@@ -12,23 +28,34 @@ a:hover {
   }
 }
 
-body {
-  /* background-image: url('../img/book-review-background-03.svg'); */
-  background-color: #e2d0c5;
-  color: white;
+.blue {
+  background-color: blue;
 }
 
-html {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  scroll-behavior: smooth;
+body {
+  /* background-image: url('../img/book-review-background-03.svg'); */
+  background-color: #dedd98;
+  color: #2f1f25;
+}
+
+#book-reviews {
+  background-color: #2f1f25;
+  border: 2px solid #dedd98;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .btn {
-  color: white;
-  background-color: #396791;
-  border: none;
+  color: #b39e42;
+  background-color: #2f1f25;
+  border: 2px solid #b39e42;
+  padding: 5px 10px;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    margin: 0 auto;
+  }
 }
 
 .btn-register {
@@ -38,18 +65,20 @@ html {
 }
 
 .btn-submit {
-  border: 2px solid #85cbe8;
+  border: 2px solid #dedd98;
 }
 
 .btn:hover {
-  color: #396791;
-  background-color: #85cbe8;
+  color: #2f1f25;
+  background-color: #dedd98;
 }
 
 @media (min-width: 768px) {
   .center-alert-div-wrapper {
     margin-left: auto;
     margin-right: auto;
+    width: -webkit-max-content;
+    width: -moz-max-content;
     width: max-content;
   }
 }
@@ -57,46 +86,30 @@ html {
 .center-div-wrapper {
   margin-left: auto;
   margin-right: auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
-}
-
-.color-85cbe8 {
-  color: #85cbe8;
-}
-
-.color-396791  {
-  color: #396791;
-}
-
-.color-cea861  {
-  color: #cea861;
-}
-
-.color-e2d0c5 {
-  color: #e2d0c5;
 }
 
 .create-an-account {
   padding: 40px;
 }
 
-.display-inline-block {
-  display: inline-block;
-}
-
 .error-login {
-  color: #396791;
+  color: #2f1f25;
   font-weight: bold;
   margin-left: auto;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .error-login {
     margin-right: auto;
   }
 }
 
 .flex-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
@@ -105,13 +118,67 @@ html {
   max-width: 300px;
 }
 
+.green {
+  background-color: green;
+}
+
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
 .input {
-  max-width: 300px;
-  margin: 8px 0;
+  border: 2px solid #b39e42;
+  border-radius: 5px;
+  margin: 0 10px 0 0;
+  padding: 5px 10px;
+}
+
+.input::-webkit-input-placeholder {
+  color: #b39e42;
+  font-style: italic;
+}
+
+.input:-ms-input-placeholder {
+  color: #b39e42;
+  font-style: italic;
+}
+
+.input::-ms-input-placeholder {
+  color: #b39e42;
+  font-style: italic;
+}
+
+.input::placeholder {
+  color: #b39e42;
+  font-style: italic;
+}
+
+.input:focus {
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .input {
+    margin-bottom: 10px;
+    width: 100%;
+  }
 }
 
 .introduction {
+  border: 3px solid #b39e42;
+  border-radius: 10px;
   padding: 40px;
+}
+
+.login-div {
+  background-color: #2f1f25;
+  border: 3px solid #b39e42;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 10px;
 }
 
 .mb10 {
@@ -126,80 +193,53 @@ html {
   color: green;
 }
 
+.purple {
+  background-color: purple;
+}
+
+.red {
+  background-color: red;
+}
+
 .row {
   margin-left: 1px;
   margin-right: 1px;
+}
+
+#search-results {
+  background-color: #2f1f25;
+  border: 2px solid #dedd98;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .text-center {
   text-align: center;
 }
 
-@media (max-width: 767px) {
-  .text-center-small {
-    text-align: center;
-  }
-}
-
-#book-reviews {
-  background-color: #396791;
-  border: 2px solid #85cbe8;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-#login {
-  margin-left: auto;
-}
-
-@media (max-width: 767px) {
-  #login {
-    margin-right: auto;
-  }
-}
-
-#navbar {
-  color: white;
-  background-color: #396791;
-  border: 2px solid #85cbe8;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-#search-results {
-  background-color: #396791;
-  border: 2px solid #85cbe8;
-  border-radius: 5px;
-  padding: 10px;
-}
-
 #user-panel {
-  background-color: #396791;
-  border: 2px solid #85cbe8;
+  background-color: #2f1f25;
+  border: 2px solid #dedd98;
   border-radius: 5px;
   padding: 10px;
 }
 
-
+.yellow {
+  background-color: yellow;
+}
 
 /* ========================= HEADER ========================= */
 #header-background {
-  background-image: url('../img/book-review-background-01.svg');
-  /* border: 3px solid #cea861; */
-  /* border: 3px solid #603813; */
-  /* border: 3px solid #396791; */
-  border: 3px solid #85cbe8;
-  border-radius: 2px;
+  background-image: url("../img/book-review-background-01.svg");
+  border: 3px solid #2f1f25;
+  border-radius: 7px;
   height: 232px;
   width: 100%;
 }
 
 #header-background-wrapper {
-  /* border: 3px solid #cea861; */
-  /* border: 3px solid #603813; */
-  border: 3px solid #396791;
-  /* border: 3px solid #85cbe8; */
-  border-radius: 5px;
+  border: 3px solid #b39e42;
+  border-radius: 10px;
   height: 238px;
   margin-top: 10px;
   width: 100%;
@@ -210,55 +250,62 @@ html {
   margin: 10px auto;
 }
 
-
-
 /* ========================= FOOTER ========================= */
 #footer-background {
-  background-image: url('../img/book-review-background-01.svg');
-  border: 3px solid #85cbe8;
-  border-radius: 2px;
+  background-image: url("../img/book-review-background-01.svg");
+  border: 3px solid #2f1f25;
+  border-radius: 7px;
   height: 90px;
   padding: 10px;
   width: 100%;
 }
 
 #footer-background-wrapper {
-  border: 3px solid #396791;
-  border-radius: 5px;
+  border: 3px solid #b39e42;
+  border-radius: 10px;
   height: 96px;
   width: 100%;
 }
 
 #footer-text {
-  background-color: #396791;
-  border: 2px solid #85cbe8;
-  border-radius: 5px;
-  color: white;
+  background-color: #2f1f25;
+  border: 2px solid #b39e42;
+  border-radius: 10px;
+  color: #b39e42;
   padding: 10px;
 }
 
 #footer-text-wrapper {
   margin: 20px 10px 0 auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
 }
-
-
 
 /* ========================= MODAL ========================= */
 /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal2 */
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 9999; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 9999;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: black;
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -267,24 +314,37 @@ html {
   background-color: white;
   margin: auto;
   padding: 0;
-  border: 2px solid #85cbe8;
+  border: 2px solid #dedd98;
   width: 85%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,100,0.2),0 6px 20px 0 rgba(0,0,100,0.19);
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 100, 0.2), 0 6px 20px 0 rgba(0, 0, 100, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 100, 0.2), 0 6px 20px 0 rgba(0, 0, 100, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
 }
 
 /* Add Animation */
 @-webkit-keyframes animatetop {
-  from {top:-300px; opacity:0} 
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 @keyframes animatetop {
-  from {top:-300px; opacity:0}
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 /* The Close Button */
@@ -304,17 +364,18 @@ html {
 
 .modal-header {
   padding: 2px 16px;
-  background-color: #396791;
+  background-color: #2f1f25;
   color: white;
 }
 
 .modal-body {
-  color: #396791;
+  color: #2f1f25;
   padding: 5px 16px;
 }
 
 .modal-footer {
   padding: 2px 16px;
-  background-color: #396791;
+  background-color: #2f1f25;
   color: white;
 }
+/*# sourceMappingURL=main.css.map */
