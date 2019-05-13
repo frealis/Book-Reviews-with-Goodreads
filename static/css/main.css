@@ -244,39 +244,39 @@ html {
 
 /* ========================= HEADER ========================= */
 #header-background {
-  background-image: url("../img/book-review-background-01.svg");
+  background-image: url("../img/book-review-b-background-01.svg");
   border: 3px solid #2f1f25;
   border-radius: 7px;
-  height: 232px;
+  height: 236px;
   width: 100%;
 }
 
 #header-background-wrapper {
   border: 3px solid #b39e42;
   border-radius: 10px;
-  height: 238px;
+  height: 242px;
   margin-top: 10px;
   width: 100%;
 }
 
 #header-logo {
   display: block;
-  margin: 10px auto;
+  margin: auto;
 }
 
 /* ========================= FOOTER ========================= */
 #footer-background {
-  background-image: url("../img/book-review-background-01.svg");
+  background-image: url("../img/book-review-b-background-01.svg");
   border: 3px solid #2f1f25;
   border-radius: 7px;
-  height: 90px;
+  height: 98px;
   width: 100%;
 }
 
 #footer-background-wrapper {
   border: 3px solid #b39e42;
   border-radius: 10px;
-  height: 96px;
+  height: 104px;
   width: 100%;
 }
 
