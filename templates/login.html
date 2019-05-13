@@ -16,7 +16,7 @@
     <div class="row">
       <div class="col-md-6"></div>
       <div class="col-md-6">
-        <form class="login-form" action="/login" method="post">
+        <form class="login-form input-group" action="/login" method="post">
           <input class="input" type="text" name="user_name" placeholder="Username" aria-label="Username" required>
           <input class="input" type="password" name="password" placeholder="Password" aria-label="Password" required>
           <button class="btn" type="submit">Login</button>
@@ -44,20 +44,15 @@
     <div class="col-md-6 create-an-account">
       <a id="create_an_account"></a>
       <form class="form-register text-center" action="/register" method="post">
-        <h1 class="h3 mb-3 color-396791">Create an account</h1>
-
+        <h5 class="mb-3 color-396791">Create an account</h5>
         <label for="inputUserName" class="sr-only">Username</label>
-        <input type="text" name="register_user_name" class="form-control input" placeholder="Username" required>
-        
+        <input type="text" name="register_user_name" class="form-control input mb10" placeholder="Username" required>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="register_password" name="register_password" class="form-control input" placeholder="Password" required>
-        
+        <input type="password" id="register_password" name="register_password" class="form-control input mb10" placeholder="Password" required>
         <label for="inputPassword" class="sr-only">Password (again)</label>
-        <input type="password" id="register_password_again" name="register_password_again" class="form-control input" placeholder="Password (again)" required>
-        
+        <input type="password" id="register_password_again" name="register_password_again" class="form-control input mb10" placeholder="Password (again)" required>      
         <p><span id="passwords_match"></span></p>
-
-        <button class="btn btn-lg btn-block btn-register" type="submit">Register</button>
+        <button class="btn btn-register" type="submit">Register</button>
       </form>
     </div>
   </div>
