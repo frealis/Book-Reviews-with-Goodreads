@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 
-  <!-- Custom CSS, JavaScript, Title -->
-  {% block custom_css %} <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> {% endblock %}
-  {% block js %} <script src="{{ url_for('static', filename='js/index.js') }}"></script> {% endblock %}
-  {% block title %} <title>CS50 - Book Reviews w/Goodreads - Index</title> {% endblock %}
+<!-- Custom CSS, JavaScript, Title -->
+{% block custom_css %} <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> {% endblock %}
+{% block js %} <script src="{{ url_for('static', filename='js/index.js') }}"></script> {% endblock %}
+{% block title %} <title>CS50 - Book Reviews w/Goodreads - Index</title> {% endblock %}
 
-  <!-- Body -->
-  {% block body %}
+<!-- Body -->
+{% block body %}
 
   <!-- Header & Logo -->
   {% include 'header_and_logo.html' %}
