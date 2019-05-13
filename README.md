@@ -94,7 +94,7 @@
 - If a client visits the /api/<isbn> route, the website returns a JSON response containing the book's title, author, publication year, ISBN, Goodreads reviews, and Goodreads average rating.
 
 # Production
-- This app is a project for CS50 - Web Development with JavaScript and Python, and hasn't been pushed to production. However, in the event that it does get deployed, it would probably be a good idea to hash the passwords and also check out these resources:
+- Resources on deploying Flask applications:
 
   1. http://flask.pocoo.org/docs/1.0/tutorial/deploy/
   2. http://flask.pocoo.org/docs/1.0/config/

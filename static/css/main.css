@@ -6,6 +6,10 @@ a:hover {
   color: white;
 }
 
+.alert {
+  margin-bottom: 8px;
+}
+
 body {
   /* background-image: url('../img/book-review-background-03.svg'); */
   background-color: #e2d0c5;
