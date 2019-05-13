@@ -6,8 +6,10 @@ a:hover {
   color: white;
 }
 
-.alert {
-  margin-bottom: 8px;
+@media (max-width: 768px) {
+  .alert-div {
+    margin-bottom: 10px;
+  }
 }
 
 body {
@@ -83,6 +85,7 @@ html {
 .display-inline-block {
   display: inline-block;
 }
+
 .error-login {
   color: #396791;
   font-weight: bold;
