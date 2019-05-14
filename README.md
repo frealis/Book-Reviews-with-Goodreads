@@ -34,6 +34,8 @@
   $ heroku pg:psql <database-name> --app cs50-book-review-w-goodreads
 
 # Login
+_login.html, login.js_
+
 - Creating a Login Page: https://www.youtube.com/watch?v=eBwhBrNbrNI
 
 - Login & Sessions:
@@ -52,6 +54,8 @@
   3. Flask has a special function called before_request() that runs before each request, including GET and POST requests. This web application uses it to assign session['user'] and session['id'] to g.user and g.id, respectively. The 'g' variable is a special Flask variable that persists between client requests, so it essentially acts like a global variable. The web application uses it to represent a client's active session.
 
 # Importing Books to Database
+_import.py, books.csv_
+
 - Book information can be added to the database from a *.csv file using the import.py program located in the root folder. Alternatively, you could use the COPY command in Postgres:
 
   db=> \copy test (isbn, title, author, year) from 'books.csv' delimiter ',' csv;
@@ -85,9 +89,12 @@
     3. https://www.citusdata.com/blog/2018/02/15/when-postgresql-blocks/
 
 # Search
+_index.html, search-bar.html_
+
 - The search function will search for matches or partial isbn, book title, or  author matches within the Heroku Postgres database and return the results. Clients can also limit the number of books that are returned from search results.
 
 # Book Information Pages
+book.html
 - Each book has an assigned 'id' value, and when a client selects an individual book from the search results they are directed the specific book's information page via /book/<id>. The page displays the book's reviews and ratings that have been submitted to the site, as well as the book's average rating and number of ratings on goodreads.com which is accessed through a Goodreads API. 
 
 # API Access
