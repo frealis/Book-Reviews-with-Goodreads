@@ -89,15 +89,18 @@ _import.py, books.csv_
     3. https://www.citusdata.com/blog/2018/02/15/when-postgresql-blocks/
 
 # Search
-_index.html, search-bar.html_
+_index.html, index.js, search-bar.html_
 
 - The search function will search for matches or partial isbn, book title, or  author matches within the Heroku Postgres database and return the results. Clients can also limit the number of books that are returned from search results.
 
 # Book Information Pages
-book.html
+_book.html, book.js_
+
 - Each book has an assigned 'id' value, and when a client selects an individual book from the search results they are directed the specific book's information page via /book/<id>. The page displays the book's reviews and ratings that have been submitted to the site, as well as the book's average rating and number of ratings on goodreads.com which is accessed through a Goodreads API. 
 
 # API Access
+_application.py, user-panel.html, modal.html_
+
 - If a client visits the /api/<isbn> route, the website returns a JSON response containing the book's title, author, publication year, ISBN, Goodreads reviews, and Goodreads average rating.
 
 # Production
