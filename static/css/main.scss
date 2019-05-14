@@ -36,7 +36,6 @@ body {
   color: $tertiary-color;
   background-color: $secondary-color;
   border: 2px solid $tertiary-color;
-  border-radius: 10px;
   height: 40px;
   padding: 5px 10px;
   &:focus {
@@ -53,6 +52,7 @@ body {
 
 .btn {
   @extend %btn;
+  border-radius: 10px;
 }
 
 @media (max-width: 768px) {

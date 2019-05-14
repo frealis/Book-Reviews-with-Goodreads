@@ -50,7 +50,6 @@ body {
   color: #b39e42;
   background-color: #2f1f25;
   border: 2px solid #b39e42;
-  border-radius: 10px;
   height: 40px;
   padding: 5px 10px;
 }
@@ -67,6 +66,10 @@ body {
 
 .btn:hover:disabled, .btn-search:hover:disabled {
   color: #b39e42;
+}
+
+.btn {
+  border-radius: 10px;
 }
 
 @media (max-width: 768px) {
