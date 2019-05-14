@@ -127,7 +127,6 @@ html {
   border: 2px solid $tertiary-color;
   border-radius: 5px;
   height: 40px;
-  margin: 0 10px 0 0;
   padding: 5px 10px;
   &::placeholder {
     color: $tertiary-color;
@@ -142,7 +141,20 @@ html {
 @media (max-width: 768px) {
   .input {
     margin-bottom: 10px;
-    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .input-login {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .input-login {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
   }
 }
 
@@ -171,11 +183,36 @@ html {
 }
 
 .login-form {
-  // background-color: blue;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .login-form {
+    flex-direction: column;
+  }
+}
+
+.login-row {
+  margin: 0;
+  padding: 0;
 }
 
 .mb10 {
   margin-bottom: 10px;
+}
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
 
 .passwords-dont-match {
@@ -321,6 +358,7 @@ html {
 
 .modal-content {
   background-color: $primary-color;
+  border: -1px;
   box-shadow: 0 4px 8px 0 rgba(0,0,100,0.2),0 6px 20px 0 rgba(0,0,100,0.2);
   margin: auto;
   padding: 0;
@@ -343,7 +381,7 @@ html {
   padding: 5px 16px;
 }
 
-.modal-footer {
-  padding: 2px 16px;
-  background-color: $secondary-color;
-}
+// .modal-footer {
+//   padding: 2px 16px;
+//   background-color: $secondary-color;
+// }

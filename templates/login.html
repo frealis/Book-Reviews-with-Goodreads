@@ -12,13 +12,12 @@
   {% include 'header_and_logo.html' %}
 
   <!-- Login -->
-  <div class="container login-div">
-    <div class="row">
-      <div class="col-md-6"></div>
-      <div class="col-md-6">
-        <form class="login-form input-group" action="/login" method="post">
-          <input class="input" type="text" name="user_name" placeholder="Username" aria-label="Username" required>
-          <input class="input" type="password" name="password" placeholder="Password" aria-label="Password" required>
+  <div class="container-fluid login-div">
+    <div class="row no-gutters">
+      <div class="col-12">
+        <form class="login-form " action="/login" method="post">
+          <input class="input input-login" type="text" name="user_name" placeholder="Username" aria-label="Username" required>
+          <input class="input input-login" type="password" name="password" placeholder="Password" aria-label="Password" required>
           <button class="btn" type="submit">Login</button>
         </form>
       </div>
