@@ -25,10 +25,10 @@ body {
   color: $secondary-color;
 }
 
-#book-reviews {
-  background-color: $secondary-color;
-  border: 2px solid $primary-color;
-  border-radius: 5px;
+.book-reviews {
+  border: 3px solid $tertiary-color;
+  border-radius: 10px;
+  color: $secondary-color;
   padding: 10px;
 }
 

@@ -39,10 +39,10 @@ body {
   color: #2f1f25;
 }
 
-#book-reviews {
-  background-color: #2f1f25;
-  border: 2px solid #dedd98;
-  border-radius: 5px;
+.book-reviews {
+  border: 3px solid #b39e42;
+  border-radius: 10px;
+  color: #2f1f25;
   padding: 10px;
 }
 
