@@ -50,6 +50,7 @@ body {
   color: #b39e42;
   background-color: #2f1f25;
   border: 2px solid #b39e42;
+  border-radius: 10px;
   height: 40px;
   padding: 5px 10px;
 }
@@ -82,10 +83,6 @@ body {
   outline: none;
 }
 
-.btn-submit {
-  border: 2px solid #dedd98;
-}
-
 @media (min-width: 768px) {
   .center-alert-div-wrapper {
     margin-left: auto;
@@ -96,9 +93,8 @@ body {
   }
 }
 
-.center-div-wrapper {
-  margin-left: auto;
-  margin-right: auto;
+.center-button {
+  margin: 0 auto;
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -243,6 +239,15 @@ html {
   border-radius: 10px;
   color: #2f1f25;
   padding: 10px;
+}
+
+.star-rating {
+  color: #15353c;
+  margin-left: auto;
+  margin-right: auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
 }
 
 .text-center {

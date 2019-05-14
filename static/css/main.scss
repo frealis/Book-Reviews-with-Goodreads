@@ -36,6 +36,7 @@ body {
   color: $tertiary-color;
   background-color: $secondary-color;
   border: 2px solid $tertiary-color;
+  border-radius: 10px;
   height: 40px;
   padding: 5px 10px;
   &:focus {
@@ -68,10 +69,6 @@ body {
   }
 }
 
-.btn-submit {
-  border: 2px solid $primary-color;
-}
-
 @media (min-width: 768px) {
   .center-alert-div-wrapper {
     margin-left: auto;
@@ -80,9 +77,8 @@ body {
   }
 }
 
-.center-div-wrapper {
-  margin-left: auto;
-  margin-right: auto;
+.center-button {
+  margin: 0 auto;
   width: max-content;
 }
 
@@ -208,6 +204,13 @@ html {
   border-radius: 10px;
   color: $secondary-color;
   padding: 10px;
+}
+
+.star-rating {
+  color: $quinary-color;
+  margin-left: auto;
+  margin-right: auto;
+  width: max-content;
 }
 
 .text-center {
