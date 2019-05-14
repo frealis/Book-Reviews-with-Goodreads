@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Determine whether to show the search results <div>.
   let search_results_message = document.querySelector('#search-results-message');
   if (search_results_message.innerHTML !== '') {
-    document.querySelector('#search-results').style.visibility='visible';
+    document.querySelector('.search-results').style.visibility='visible';
   } else {
-    document.querySelector('#search-results').style.visibility='hidden';
+    document.querySelector('.search-results').style.visibility='hidden';
   };
 
   // Access API Modal

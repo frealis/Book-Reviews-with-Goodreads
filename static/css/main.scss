@@ -279,35 +279,6 @@ html {
 
 /* ========================= MODAL ========================= */
 /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal2 */
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 9999; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  position: relative;
-  background-color: white;
-  margin: auto;
-  padding: 0;
-  border: 2px solid $primary-color;
-  width: 85%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,100,0.2),0 6px 20px 0 rgba(0,0,100,0.19);
-  -webkit-animation-name: animatetop;
-  -webkit-animation-duration: 0.4s;
-  animation-name: animatetop;
-  animation-duration: 0.4s
-}
 
 /* Add Animation */
 @-webkit-keyframes animatetop {
@@ -320,11 +291,10 @@ html {
   to {top:0; opacity:1}
 }
 
-/* The Close Button */
 .close {
   color: white;
   float: right;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: bold;
 }
 
@@ -335,10 +305,37 @@ html {
   cursor: pointer;
 }
 
+.modal {
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  padding-top: 100px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: $primary-color;
+  box-shadow: 0 4px 8px 0 rgba(0,0,100,0.2),0 6px 20px 0 rgba(0,0,100,0.2);
+  margin: auto;
+  padding: 0;
+  position: relative;
+  width: 85%;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
 .modal-header {
   padding: 2px 16px;
   background-color: $secondary-color;
-  color: white;
+  color: $primary-color;
 }
 
 .modal-body {
@@ -349,5 +346,4 @@ html {
 .modal-footer {
   padding: 2px 16px;
   background-color: $secondary-color;
-  color: white;
 }
