@@ -49,6 +49,7 @@ body {
 .btn, .btn-search {
   color: #b39e42;
   background-color: #2f1f25;
+  border: 2px solid #b39e42;
   height: 40px;
   padding: 5px 10px;
 }
@@ -67,10 +68,6 @@ body {
   color: #b39e42;
 }
 
-.btn {
-  border: 2px solid #b39e42;
-}
-
 @media (max-width: 768px) {
   .btn {
     margin: 0 auto;
@@ -78,8 +75,11 @@ body {
 }
 
 .btn-search {
-  border: 2px solid #b39e42;
   border-right: 0;
+}
+
+.btn-search:focus {
+  outline: none;
 }
 
 .btn-submit {
@@ -238,10 +238,10 @@ html {
   margin-right: 1px;
 }
 
-#search-results {
-  background-color: #2f1f25;
-  border: 2px solid #dedd98;
-  border-radius: 5px;
+.search-results {
+  border: 2px solid #b39e42;
+  border-radius: 10px;
+  color: #2f1f25;
   padding: 10px;
 }
 
