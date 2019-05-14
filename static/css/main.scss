@@ -75,6 +75,12 @@ body {
   }
 }
 
+@media (max-width: 768px) {
+  .btn-search {
+    border-radius: 10px 0 0 10px;
+  }
+}
+
 @media (min-width: 768px) {
   .center-alert-div-wrapper {
     margin-left: auto;
@@ -165,6 +171,7 @@ html {
 }
 
 .input-search {
+  border-radius: 10px;
   width: 100%;
 }
 
