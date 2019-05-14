@@ -3,10 +3,10 @@
 
 a {
   color: $quinary-color;
-}
-
-a:hover {
-  color: tertiary-color;
+  font-weight: bold;
+  &:hover {
+    color: $tertiary-color;
+  }
 }
 
 @media (max-width: 768px) {
@@ -32,12 +32,26 @@ body {
   padding: 10px;
 }
 
-.btn {
+%btn {
   color: $tertiary-color;
   background-color: $secondary-color;
-  border: 2px solid $tertiary-color;
   height: 40px;
   padding: 5px 10px;
+  &:focus {
+    box-shadow: 0 0 3pt 2pt $tertiary-color;
+  }
+  &:hover:enabled {
+    color: $secondary-color;
+    background-color: $primary-color;
+  }
+  &:hover:disabled {
+    color: $tertiary-color;
+  }
+} 
+
+.btn {
+  @extend %btn;
+  border: 2px solid $tertiary-color;
 }
 
 @media (max-width: 768px) {
@@ -46,23 +60,14 @@ body {
   }
 }
 
-.btn-register {
-  max-width: 200px;
-  margin-left: auto;
-  margin-right: auto;
+.btn-search {
+  @extend %btn;
+  border: 2px solid $tertiary-color;
+  border-right: 0;
 }
 
 .btn-submit {
   border: 2px solid $primary-color;
-}
-
-.btn:hover:enabled {
-  color: $secondary-color;
-  background-color: $primary-color;
-}
-
-.btn:hover:disabled {
-  color: $tertiary-color;
 }
 
 @media (min-width: 768px) {
@@ -143,8 +148,14 @@ html {
   }
 }
 
-.input-register {
+.input-search {
+  width: 100%;
+}
 
+@media (min-width: 768px) {
+  .input-search {
+    margin-bottom: 10px;
+  }
 }
 
 .introduction {
@@ -201,10 +212,10 @@ html {
   text-align: center;
 }
 
-#user-panel {
-  background-color: $secondary-color;
-  border: 2px solid $primary-color;
-  border-radius: 5px;
+.user-panel {
+  // background-color: $secondary-color;
+  border: 3px solid $tertiary-color;
+  border-radius: 10px;
   padding: 10px;
 }
 
@@ -255,7 +266,7 @@ html {
 }
 
 #footer-text-wrapper {
-  margin: 24px 10px 0 auto;
+  margin: 26px 10px 0 auto;
   width: max-content;
 }
 

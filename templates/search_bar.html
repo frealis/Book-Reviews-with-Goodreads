@@ -1,23 +1,47 @@
 
 <!-- Search Bar -->
 <form action="/" method="post">
-  <nav id="navbar">
-    <div class="row p-3">
-      <div class="input-group">
-        <input type="text" class="form-control" name="search_bar" placeholder="Search" aria-label="Search books">
-        <input value="5" type="hidden" id="results_limit" name="results_limit">
-        <div class="input-group-append">
-          <button class="btn" type="submit"><span class="fas fa-search"></span></button>
-          <button class="btn dropdown-toggle" id="dropdown-selection" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show 5 Results</button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" data-results="5" id="show-5-results" href="#">Show 5 Results</a>
-            <a class="dropdown-item" data-results="10" id="show-10-results" href="#">Show 10 Results</a>
-            <a class="dropdown-item" data-results="20" id="show-20-results" href="#">Show 20 Results</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" data-results="42" id="show-all-results" href="#">Show All</a>
-          </div>
-        </div>
+  <div class="input-group my-3">
+    <input type="text" class="input input-search form-control" name="search_bar" placeholder="Search book title, author, or ISBN" aria-label="Search books">
+    <input value="5" type="hidden" id="results_limit" name="results_limit">
+    <div class="input-group-append">
+      <button class="btn-search" type="submit"><span class="fas fa-search"></span></button>
+      <button class="btn dropdown-toggle" id="dropdown-selection" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show 5 Results</button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" data-results="5" id="show-5-results" href="#">Show 5 Results</a>
+        <a class="dropdown-item" data-results="10" id="show-10-results" href="#">Show 10 Results</a>
+        <a class="dropdown-item" data-results="20" id="show-20-results" href="#">Show 20 Results</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" data-results="42" id="show-all-results" href="#">Show All</a>
       </div>
     </div>
-  </nav>
+  </div>
 </form>
+
+<!-- This script was created in order to add or remove Bootstrap 4's .form-control 
+class from the search bar depending on screen width -- if the screen is too 
+small then the .form-control class is removed from the search bar in order
+sort of 'detach' the input-group-append <div> which allows the seach bar to
+extend the full width of the screen. -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Perform an initial screen-width check.
+  let input_search = document.querySelector('.input-search');
+  if (window.innerWidth <= 768 && input_search.classList.contains('form-control')) {
+    input_search.classList.remove('form-control');
+  } else if (window.innerWidth > 768 && !input_search.classList.contains('form-control')) {
+    input_search.className += ' form-control ' ;
+  };
+
+  // Determine whether or not to add .form-control to the search bar whenever the 
+  // screen is resized.
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768 && input_search.classList.contains('form-control')) {
+      input_search.classList.remove('form-control');
+    } else if (window.innerWidth > 768 && !input_search.classList.contains('form-control')) {
+      input_search.className += ' form-control ' ;
+    };
+  });
+});
+</script>
