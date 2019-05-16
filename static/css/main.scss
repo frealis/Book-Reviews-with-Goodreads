@@ -39,7 +39,7 @@ body {
   height: 40px;
   padding: 5px 10px;
   &:focus {
-    box-shadow: 0 0 3pt 2pt $tertiary-color;
+    // box-shadow: 0 0 3pt 2pt $tertiary-color;
   }
   &:hover:enabled {
     color: $secondary-color;
@@ -116,7 +116,7 @@ body {
 
 .form-control:focus {
   border:2px solid $tertiary-color;
-  box-shadow: 0 0 3pt 2pt $tertiary-color;
+  // box-shadow: 0 0 3pt 2pt $tertiary-color;
 }
 
 .form-register {
@@ -145,7 +145,7 @@ html {
     font-style: italic;
   }
   &:focus {
-    box-shadow: 0 0 3pt 2pt $tertiary-color;
+    // box-shadow: 0 0 3pt 2pt $tertiary-color;
     outline: none;
   }
 }
