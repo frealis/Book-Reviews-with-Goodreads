@@ -25,6 +25,12 @@
 
   $ flask run
 
+- To start the web application locally using the Heroku Local CLI plugin:
+
+$ heroku local web -f Procfile.windows
+
+... and the website should be accessible at localhost:5000.
+
 - Connect to the Heroku Postgres database from the command line (credentials are at Dashboard > cs50-book-review-w-goodreads > Heroku Postgres > Settings > Database Credentials/View Credentials) with either command:
 
   $ psql database_URL
